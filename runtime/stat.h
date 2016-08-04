@@ -29,6 +29,10 @@ struct stat_data {
 	int64_t count;
 	int64_t sum;
 	int64_t min, max;
+	int64_t avg;
+	int64_t _M2;
+	int64_t variance;
+	int64_t shift;
 #ifdef NEED_STAT_LOCKS
 #ifdef __KERNEL__
 	spinlock_t lock;
@@ -49,6 +53,7 @@ struct _Hist {
 	int stop;
 	int interval;
 	int buckets;
+	int bit_shift;
 };
 typedef struct _Hist *Hist;
 

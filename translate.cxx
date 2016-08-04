@@ -487,7 +487,8 @@ public:
           switch (sd.type)
             {
             case statistic_decl::none:
-              prefix += "HIST_NONE";
+              prefix += string("HIST_NONE")
+                + ", " + lex_cast(sd.bit_shift);
               break;
 
             case statistic_decl::linear:
@@ -822,7 +823,8 @@ struct mapvar
 	switch (sdecl().type)
 	  {
 	  case statistic_decl::none:
-	    prefix = prefix + ", HIST_NONE";
+	    prefix = prefix + ", HIST_NONE"
+                + ", " + lex_cast(sd.bit_shift);
 	    break;
 
 	  case statistic_decl::linear:
@@ -5906,9 +5908,7 @@ c_unparser::visit_stat_op (stat_op* e)
       switch (e->ctype)
         {
         case sc_average:
-          c_assign(res, ("_stp_div64(NULL, " + agg.value() + "->sum, "
-                         + agg.value() + "->count)"),
-                   e->tok);
+          c_assign(res, agg.value() + "->avg", e->tok);
           break;
         case sc_count:
           c_assign(res, agg.value() + "->count", e->tok);
@@ -5921,6 +5921,9 @@ c_unparser::visit_stat_op (stat_op* e)
           break;
         case sc_max:
           c_assign(res, agg.value() + "->max", e->tok);
+          break;
+        case sc_variance:
+          c_assign(res, agg.value() + "->variance", e->tok);
           break;
         case sc_none:
           assert (0); // should not happen, as sc_none is only used in foreach sorts

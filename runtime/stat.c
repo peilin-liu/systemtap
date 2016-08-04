@@ -56,28 +56,28 @@
  */
 static Stat _stp_stat_init (int type, ...)
 {
-	int size, buckets=0, start=0, stop=0, interval=0;
+	int size, buckets=0, start=0, stop=0, interval=0, bit_shift=0;
 	Stat st;
 
-	if (type != HIST_NONE) {
-		va_list ap;
-		va_start (ap, type);
+        va_list ap;
+        va_start (ap, type);
 
-		if (type == HIST_LOG) {
-			buckets = HIST_LOG_BUCKETS;
-		} else {
-			start = va_arg(ap, int);
-			stop = va_arg(ap, int);
-			interval = va_arg(ap, int);
+        if (type == HIST_NONE) {
+                bit_shift = va_arg(ap, int);
+        } else if (type == HIST_LOG) {
+                buckets = HIST_LOG_BUCKETS;
+        } else {
+                start = va_arg(ap, int);
+                stop = va_arg(ap, int);
+                interval = va_arg(ap, int);
 
-			buckets = _stp_stat_calc_buckets(stop, start, interval);
-			if (!buckets) {
-				va_end (ap);
-				return NULL;
-			}
-		}
-		va_end (ap);
-	}
+                buckets = _stp_stat_calc_buckets(stop, start, interval);
+                if (!buckets) {
+                        va_end (ap);
+                        return NULL;
+                }
+        }
+        va_end (ap);
 
 	size = buckets * sizeof(int64_t) + sizeof(stat_data);
 	st = _stp_stat_alloc (size);
@@ -94,6 +94,7 @@ static Stat _stp_stat_init (int type, ...)
 	st->hist.stop = stop;
 	st->hist.interval = interval;
 	st->hist.buckets = buckets;
+	st->hist.bit_shift = bit_shift;
 	return st;
 }
 
@@ -147,15 +148,18 @@ static void _stp_stat_clear_data (Stat st, stat_data *sd)
 static stat_data *_stp_stat_get (Stat st, int clear)
 {
 	int i, j;
+	int64_t S1, S2;
 	stat_data *agg = _stp_stat_get_agg(st);
 	stat_data *sd;
 	STAT_LOCK(agg);
 	_stp_stat_clear_data (st, agg);
+	S1 = S2 = 0;
 
 	for_each_possible_cpu(i) {
 		stat_data *sd = _stp_stat_per_cpu_ptr (st, i);
 		STAT_LOCK(sd);
 		if (sd->count) {
+			agg->shift = sd->shift;
 			if (agg->count == 0) {
 				agg->min = sd->min;
 				agg->max = sd->max;
@@ -170,11 +174,28 @@ static stat_data *_stp_stat_get (Stat st, int clear)
 				for (j = 0; j < st->hist.buckets; j++)
 					agg->histogram[j] += sd->histogram[j];
 			}
-			if (clear)
-				_stp_stat_clear_data (st, sd);
 		}
 		STAT_UNLOCK(sd);
 	}
+
+	agg->avg = _stp_div64(NULL, agg->sum << agg->shift, agg->count);
+
+	for_each_possible_cpu(i) {
+		sd = _stp_stat_per_cpu_ptr (st, i);
+		STAT_LOCK(sd);
+		if (sd->count) {
+			S1 += sd->count * (sd->avg - agg->avg) * (sd->avg - agg->avg);
+			S2 += (sd->count - 1) * sd->variance;
+		}
+		if (clear)
+			_stp_stat_clear_data (st, sd);
+		STAT_UNLOCK(sd);
+	}
+
+	agg->variance = _stp_div64(NULL, (S1 + S2), (agg->count - 1));
+
+	agg->variance >>= (2 * agg->shift);
+	agg->avg >>= agg->shift;
 
 	/*
 	 * Originally this function returned the aggregate still

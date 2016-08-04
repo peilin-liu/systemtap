@@ -291,9 +291,16 @@ static void _stp_stat_print_histogram(Hist st, stat_data *sd)
 static void __stp_stat_add(Hist st, stat_data *sd, int64_t val)
 {
 	int n;
+	int delta = 0;
+	// FIXME Although each @variance(x, N) can define its bit shift N, here
+	// we have only one bit shift that applies to all @variance() operators.
+	// Which is wrong and needs fixing.
+	sd->shift = st->bit_shift;
 	if (sd->count == 0) {
 		sd->count = 1;
 		sd->sum = sd->min = sd->max = val;
+		sd->avg = val << sd->shift;
+		sd->_M2 = 0;
 	} else {
 		sd->count++;
 		sd->sum += val;
@@ -301,7 +308,12 @@ static void __stp_stat_add(Hist st, stat_data *sd, int64_t val)
 			sd->max = val;
 		if (val < sd->min)
 			sd->min = val;
+		delta = (val << sd->shift) - sd->avg;
+		sd->avg += _stp_div64(NULL, delta, sd->count);
+		sd->_M2 += delta * ((val << sd->shift) - sd->avg);
+		sd->variance = (sd->count < 2) ? -1 : _stp_div64(NULL, sd->_M2, (sd->count - 1));
 	}
+
 	switch (st->type) {
 	case HIST_LOG:
 		n = _stp_val_to_bucket (val);

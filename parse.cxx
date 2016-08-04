@@ -1436,8 +1436,6 @@ lexer::lexer (istream& input, const string& in, systemtap_session& s, bool cc):
       // proposed macro names without building a string with that prefix.
       atwords.insert("cast");
       atwords.insert("defined");
-      if (has_version("3.1"))
-        atwords.insert("const");
       atwords.insert("entry");
       atwords.insert("perf");
       atwords.insert("var");
@@ -1448,6 +1446,11 @@ lexer::lexer (istream& input, const string& in, systemtap_session& s, bool cc):
       atwords.insert("max");
       atwords.insert("hist_linear");
       atwords.insert("hist_log");
+      if (has_version("3.1"))
+        {
+          atwords.insert("const");
+          atwords.insert("variance");
+        }
     }
 }
 
@@ -3165,6 +3168,7 @@ parser::parse_foreach_loop ()
       else if (t->content == "@max") s->sort_aggr = sc_max;
       else if (t->content == "@count") s->sort_aggr = sc_count;
       else if (t->content == "@sum") s->sort_aggr = sc_sum;
+      else if (t->content == "@variance") s->sort_aggr = sc_variance;
       else throw PARSE_ERROR(_("expected statistical operation"));
       swallow();
 
@@ -3790,6 +3794,7 @@ expression* parser::parse_symbol ()
   hist_op *hop = NULL;
   symbol *sym = NULL;
   interned_string name;
+  unsigned max_params = 0;
   const token *t = parse_hist_op_or_bare_name(hop, name);
 
   if (!hop)
@@ -3815,8 +3820,13 @@ expression* parser::parse_symbol ()
       if (name.size() > 0 && name[0] == '@')
 	{
 	  stat_op *sop = new stat_op;
+	  // FIXME: This tries to be too generic probably.  The aim is to provide a
+	  // good base for later extensions where future operators might have params.
+	  // But maybe that's not going to happen.
 	  if (name == "@avg")
-	    sop->ctype = sc_average;
+	    sop->ctype = sc_average, max_params = 1;
+	  else if (name == "@variance")
+	    sop->ctype = sc_variance, max_params = 1;
 	  else if (name == "@count")
 	    sop->ctype = sc_count;
 	  else if (name == "@sum")
@@ -3831,7 +3841,28 @@ expression* parser::parse_symbol ()
 	  expect_op("(");
 	  sop->tok = t;
 	  sop->stat = parse_expression ();
-	  expect_op(")");
+
+	  // FIXME A new function wrapping the following might be feasible here.
+	  while(1)
+	    {
+	      t = next ();
+	      if (t && t->type == tok_operator && t->content == ")")
+	        {
+	          swallow ();
+	          break;
+	        }
+	        else if (t && t->type == tok_operator && t->content == ",")
+	        {
+	          swallow ();
+	          int64_t tnum;
+	          expect_number (tnum);
+	          sop->params.push_back (tnum);
+	          // FIXME: Following error message doesn't nicely show the code snippet
+	          // containing the error, but instead it prints "saw: <input> EOF" str.
+	          if (sop->params.size() > max_params)
+	            throw PARSE_ERROR(_("too many parameters"));
+	        }
+	    }
 	  return sop;
 	}
 

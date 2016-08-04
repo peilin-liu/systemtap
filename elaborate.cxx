@@ -1285,11 +1285,21 @@ struct stat_decl_collector
     : session(sess)
   {}
 
+  // FIXME: Consider creating separate stat.type for variance and handling it
+  // separately
   void visit_stat_op (stat_op* e)
   {
     symbol *sym = get_symbol_within_expression (e->stat);
-    if (session.stat_decls.find(sym->name) == session.stat_decls.end())
-      session.stat_decls[sym->name] = statistic_decl();
+    statistic_decl new_stat = statistic_decl();
+    int bit_shift = (e->params.size() == 0) ? 0 : e->params[0];
+
+    new_stat.bit_shift = bit_shift;
+
+    map<interned_string, statistic_decl>::iterator i = session.stat_decls.find(sym->name);
+    if (i == session.stat_decls.end())
+      session.stat_decls[sym->name] = new_stat;
+    else
+      i->second.bit_shift = bit_shift;
   }
 
   void visit_assignment (assignment* e)
