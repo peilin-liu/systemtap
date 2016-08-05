@@ -180,6 +180,13 @@ static stat_data *_stp_stat_get (Stat st, int clear)
 
 	agg->avg = _stp_div64(NULL, agg->sum << agg->shift, agg->count);
 
+	/*
+	 * For aggregating variance over available CPUs, the Total Variance
+	 * formula is being used.  This formula is mentioned in following
+	 * paper: Niranjan Kamat, Arnab Nandi: A Closer Look at Variance
+	 * Implementations In Modern Database Systems: SIGMOD Record 2015.
+	 * Available at: http://web.cse.ohio-state.edu/~kamatn/variance.pdf
+	 */
 	for_each_possible_cpu(i) {
 		sd = _stp_stat_per_cpu_ptr (st, i);
 		STAT_LOCK(sd);

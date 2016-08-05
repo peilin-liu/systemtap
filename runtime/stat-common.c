@@ -295,6 +295,11 @@ static void __stp_stat_add(Hist st, stat_data *sd, int64_t val)
 	// FIXME Although each @variance(x, N) can define its bit shift N, here
 	// we have only one bit shift that applies to all @variance() operators.
 	// Which is wrong and needs fixing.
+
+	/*
+	 * Below, we use Welford's online algorithm for computing variance.
+	 * https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+	 */
 	sd->shift = st->bit_shift;
 	if (sd->count == 0) {
 		sd->count = 1;
