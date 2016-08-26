@@ -3820,9 +3820,6 @@ expression* parser::parse_symbol ()
       if (name.size() > 0 && name[0] == '@')
 	{
 	  stat_op *sop = new stat_op;
-	  // FIXME: This tries to be too generic probably.  The aim is to provide a
-	  // good base for later extensions where future operators might have params.
-	  // But maybe that's not going to happen.
 	  if (name == "@avg")
 	    sop->ctype = sc_average, max_params = 1;
 	  else if (name == "@variance")
@@ -3842,7 +3839,6 @@ expression* parser::parse_symbol ()
 	  sop->tok = t;
 	  sop->stat = parse_expression ();
 
-	  // FIXME A new function wrapping the following might be feasible here.
 	  while(1)
 	    {
 	      t = next ();
@@ -3853,14 +3849,15 @@ expression* parser::parse_symbol ()
 	        }
 	        else if (t && t->type == tok_operator && t->content == ",")
 	        {
+	          if (sop->params.size() >= max_params)
+	            throw PARSE_ERROR(_NF("not more than %d parameter allowed",
+	                                  "not more than %d parameters allowed",
+	                                  max_params+1, max_params+1), t);
+
 	          swallow ();
 	          int64_t tnum;
 	          expect_number (tnum);
 	          sop->params.push_back (tnum);
-	          // FIXME: Following error message doesn't nicely show the code snippet
-	          // containing the error, but instead it prints "saw: <input> EOF" str.
-	          if (sop->params.size() > max_params)
-	            throw PARSE_ERROR(_("too many parameters"));
 	        }
 	    }
 	  return sop;
