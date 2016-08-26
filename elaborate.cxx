@@ -1285,8 +1285,6 @@ struct stat_decl_collector
     : session(sess)
   {}
 
-  // FIXME: Consider creating separate stat.type for variance and handling it
-  // separately
   void visit_stat_op (stat_op* e)
   {
     symbol *sym = get_symbol_within_expression (e->stat);
@@ -1299,7 +1297,31 @@ struct stat_decl_collector
     if (i == session.stat_decls.end())
       session.stat_decls[sym->name] = new_stat;
     else
-      i->second.bit_shift = bit_shift;
+      // The bit_shift N applies to both @variance and @avg for given stat S
+      // (i.e. call to _stp_stat_init()).  These two operators are optionally
+      // parametrizeable (@variance(S[, N]), @avg(S[, N)), so that the bit_shift
+      // can optionally be set for them.  The default is N=0.  However, other
+      // stat operators, such as @min, or @max, are not parametrizeable in this
+      // sense, and they shouldn't affect the bit_shift for given stat.
+      //
+      // Once the script writer starts using the bit_shift (i.e. defines it
+      // explicitly for the first time), he needs to continue specifying it
+      // consistently across all of his @variance and @avg uses, otherwise the
+      // "multiple bit shifts declared on ..." semantic error pops up.
+      if ((e->tok->content != "@variance") && (e->tok->content != "@avg"))
+        return;
+      else if ((i->second.bit_shift != 0) && (i->second.bit_shift != bit_shift))
+        {
+          // FIXME: Support multiple co-declared bit shifts
+          // (analogy to multiple co-declared histogram types)
+          semantic_error se(ERR_SRC, _F("multiple bit shifts declared on '%s' (%ld, %d)",
+                                        sym->name.to_string().c_str(),
+                                        i->second.bit_shift, bit_shift),
+                            e->tok);
+          session.print_error (se);
+        }
+      else
+        i->second.bit_shift = bit_shift;
   }
 
   void visit_assignment (assignment* e)
