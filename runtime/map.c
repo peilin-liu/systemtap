@@ -173,8 +173,8 @@ static int _stp_cmp (struct mlist_head *h1, struct mlist_head *h2,
 			b = sd2->max;
 			break;
 		case SORT_AVG:
-			a = _stp_div64 (NULL, sd1->sum, sd1->count);
-			b = _stp_div64 (NULL, sd2->sum, sd2->count);
+			a = sd1->avg;
+			b = sd2->avg;
 			break;
 		default:
 			/* should never happen */
@@ -447,6 +447,7 @@ static int _new_map_set_stat (MAP map, struct stat_data *sd, int64_t val, int ad
 				sd->histogram[j] = 0;
 		}
 	}
+	(&map->hist)->bit_shift = map->bit_shift;
 	__stp_stat_add (&map->hist, sd, val);
 	return 0;
 }
@@ -479,6 +480,7 @@ static int _new_map_copy_stat (MAP map, struct stat_data *sd1, struct stat_data 
 		sd1->sum = sd2->sum;
 		sd1->min = sd2->min;
 		sd1->max = sd2->max;
+		sd1->avg = _stp_div64(NULL, sd1->sum, sd1->count);
 		if (st->type != HIST_NONE) {
 			int j;
 			for (j = 0; j < st->buckets; j++)

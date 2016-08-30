@@ -130,7 +130,7 @@ static void _stp_stat_add (Stat st, int64_t val)
 static void _stp_stat_clear_data (Stat st, stat_data *sd)
 {
         int j;
-        sd->count = sd->sum = sd->min = sd->max = 0;
+        sd->count = sd->sum = sd->min = sd->max = sd->avg = sd->variance = 0;
         if (st->hist.type != HIST_NONE) {
                 for (j = 0; j < st->hist.buckets; j++)
                         sd->histogram[j] = 0;

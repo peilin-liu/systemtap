@@ -17,6 +17,7 @@
 
 
 struct pmap {
+	int bit_shift;  /* scale factor for integer arithmetic */
 	MAP agg;	/* aggregation map */
 	MAP map[];	/* per-cpu maps */
 };

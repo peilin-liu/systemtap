@@ -151,10 +151,16 @@ static PMAP KEYSYM(_stp_pmap_new) (unsigned max_entries, int wrap)
 static PMAP
 KEYSYM(_stp_pmap_new) (unsigned max_entries, int wrap, int htype, ...)
 {
-	int start=0, stop=0, interval=0;
+	int start=0, stop=0, interval=0, bit_shift=0;
 	PMAP pmap;
 
-	if (htype == HIST_LINEAR) {
+	if (htype == HIST_NONE) {
+		va_list ap;
+		va_start (ap, htype);
+                bit_shift = va_arg(ap, int);
+                va_end (ap);
+	}
+	else if (htype == HIST_LINEAR) {
 		va_list ap;
 		va_start (ap, htype);
 		start = va_arg(ap, int);
@@ -167,6 +173,7 @@ KEYSYM(_stp_pmap_new) (unsigned max_entries, int wrap, int htype, ...)
 	case HIST_NONE:
 		pmap = _stp_pmap_new_hstat (max_entries, wrap,
 					    sizeof(struct KEYSYM(map_node)));
+		pmap->bit_shift = bit_shift;
 		break;
 	case HIST_LOG:
 		pmap = _stp_pmap_new_hstat_log (max_entries, wrap,
@@ -200,6 +207,7 @@ static int KEYSYM(_stp_pmap_add) (PMAP pmap, ALLKEYSD(key), VSTYPE val)
 {
 	int res;
 	MAP m = _stp_pmap_get_map (pmap, MAP_GET_CPU());
+	m->bit_shift = pmap->bit_shift;
 	res = KEYSYM(__stp_map_set) (m, ALLKEYS(key), val, 1);
         MAP_PUT_CPU();
 	return res;
