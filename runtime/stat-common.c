@@ -301,7 +301,7 @@ static void __stp_stat_add(Hist st, stat_data *sd, int64_t val)
 	if (sd->count == 0) {
 		sd->count = 1;
 		sd->sum = sd->min = sd->max = val;
-		sd->avg = val << sd->shift;
+		sd->avg_s = val << sd->shift;
 		sd->_M2 = 0;
 	} else {
 		sd->count++;
@@ -310,10 +310,10 @@ static void __stp_stat_add(Hist st, stat_data *sd, int64_t val)
 			sd->max = val;
 		if (val < sd->min)
 			sd->min = val;
-		delta = (val << sd->shift) - sd->avg;
-		sd->avg += _stp_div64(NULL, delta, sd->count);
-		sd->_M2 += delta * ((val << sd->shift) - sd->avg);
-		sd->variance = (sd->count < 2) ? -1 : _stp_div64(NULL, sd->_M2, (sd->count - 1));
+		delta = (val << sd->shift) - sd->avg_s;
+		sd->avg_s += _stp_div64(NULL, delta, sd->count);
+		sd->_M2 += delta * ((val << sd->shift) - sd->avg_s);
+		sd->variance_s = (sd->count < 2) ? -1 : _stp_div64(NULL, sd->_M2, (sd->count - 1));
 	}
 
 	switch (st->type) {

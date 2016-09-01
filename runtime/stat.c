@@ -130,7 +130,9 @@ static void _stp_stat_add (Stat st, int64_t val)
 static void _stp_stat_clear_data (Stat st, stat_data *sd)
 {
         int j;
-        sd->count = sd->sum = sd->min = sd->max = sd->avg = sd->variance = 0;
+        sd->count = sd->sum = sd->min = sd->max = 0;
+        sd->avg = sd->avg_s = sd->variance = sd->variance_s = 0;
+
         if (st->hist.type != HIST_NONE) {
                 for (j = 0; j < st->hist.buckets; j++)
                         sd->histogram[j] = 0;
@@ -178,7 +180,7 @@ static stat_data *_stp_stat_get (Stat st, int clear)
 		STAT_UNLOCK(sd);
 	}
 
-	agg->avg = _stp_div64(NULL, agg->sum << agg->shift, agg->count);
+	agg->avg_s = _stp_div64(NULL, agg->sum << agg->shift, agg->count);
 
 	/*
 	 * For aggregating variance over available CPUs, the Total Variance
@@ -191,18 +193,22 @@ static stat_data *_stp_stat_get (Stat st, int clear)
 		sd = _stp_stat_per_cpu_ptr (st, i);
 		STAT_LOCK(sd);
 		if (sd->count) {
-			S1 += sd->count * (sd->avg - agg->avg) * (sd->avg - agg->avg);
-			S2 += (sd->count - 1) * sd->variance;
+			S1 += sd->count * (sd->avg_s - agg->avg_s) * (sd->avg_s - agg->avg_s);
+			S2 += (sd->count - 1) * sd->variance_s;
 		}
 		if (clear)
 			_stp_stat_clear_data (st, sd);
 		STAT_UNLOCK(sd);
 	}
 
-	agg->variance = _stp_div64(NULL, (S1 + S2), (agg->count - 1));
+	agg->variance_s = _stp_div64(NULL, (S1 + S2), (agg->count - 1));
 
-	agg->variance >>= (2 * agg->shift);
-	agg->avg >>= agg->shift;
+	/*
+	 * Setting agg->avg = agg->avg_s >> agg->shift; below would
+	 * introduce slight rounding errors.
+	 */
+	agg->avg = _stp_div64(NULL, agg->sum, agg->count);
+	agg->variance = agg->variance_s >> (2 * agg->shift);
 
 	/*
 	 * Originally this function returned the aggregate still

@@ -30,8 +30,10 @@ struct stat_data {
 	int64_t sum;
 	int64_t min, max;
 	int64_t avg;
+	int64_t avg_s;
 	int64_t _M2;
 	int64_t variance;
+	int64_t variance_s;
 	int64_t shift;
 #ifdef NEED_STAT_LOCKS
 #ifdef __KERNEL__
