@@ -455,10 +455,10 @@ static int _new_map_set_stat (MAP map, struct stat_data *sd, int64_t val, int ad
 static int _new_map_copy_stat (MAP map, struct stat_data *sd1, struct stat_data *sd2, int add)
 {
 	Hist st = &map->hist;
-        int64_t S11, S12, S21, S22;
-        int64_t sd1_count, sd1_avg_s;
-        S11 = S12 = S21 = S22 = 0;
-        sd1_count = sd1_avg_s = 0;
+	int64_t S11, S12, S21, S22;
+	int64_t sd1_count, sd1_avg_s;
+	S11 = S12 = S21 = S22 = 0;
+	sd1_count = sd1_avg_s = 0;
 
         if (sd2 == NULL) {
                 sd1->count = 0;
@@ -468,8 +468,8 @@ static int _new_map_copy_stat (MAP map, struct stat_data *sd1, struct stat_data 
                                 sd1->histogram[j] = 0;
                 }
         } else if (add && sd1->count > 0 && sd2->count > 0) {
-                sd1_count = sd1->count;
-                sd1_avg_s = sd1->avg_s;
+		sd1_count = sd1->count;
+		sd1_avg_s = sd1->avg_s;
 
 		sd1->count += sd2->count;
 		sd1->sum += sd2->sum;
@@ -478,6 +478,7 @@ static int _new_map_copy_stat (MAP map, struct stat_data *sd1, struct stat_data 
 		if (sd2->max > sd1->max)
 			sd1->max = sd2->max;
 			sd1->shift = sd2->shift;
+
 			sd1->avg_s = _stp_div64(NULL, sd1->sum << sd2->shift, sd1->count);
 			/*
 			 * A bit shift would certainly be faster below, but that would
@@ -513,6 +514,7 @@ static int _new_map_copy_stat (MAP map, struct stat_data *sd1, struct stat_data 
 		sd1->max = sd2->max;
 		sd1->shift = sd2->shift;
 		sd1->avg_s = sd2->avg_s;
+
 		/*
 		 * Setting sd1->avg = sd2->avg_s >> sd2->shift; below would
 		 * introduce slight rounding issues.

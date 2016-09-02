@@ -26,6 +26,7 @@ enum histtype { HIST_NONE, HIST_LOG, HIST_LINEAR };
 /** Statistics are stored in this struct.  This is per-cpu or per-node data 
     and is variable length due to the unknown size of the histogram. */
 struct stat_data {
+	int shift;
 	int64_t count;
 	int64_t sum;
 	int64_t min, max;
@@ -34,14 +35,6 @@ struct stat_data {
 	int64_t _M2;
 	int64_t variance;
 	int64_t variance_s;
-	int64_t shift;
-#ifdef NEED_STAT_LOCKS
-#ifdef __KERNEL__
-	spinlock_t lock;
-#else  /* !__KERNEL__ */
-	pthread_mutex_t lock;
-#endif	/* !__KERNEL__ */
-#endif
 	int64_t histogram[];
 };
 typedef struct stat_data stat_data;

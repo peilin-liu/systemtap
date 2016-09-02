@@ -22,18 +22,12 @@
  * to a probe updating the statistics of one cpu while another cpu attempts
  * to read the same data. This will also negatively impact performance.
  *
- * If you have a need to poll Stat data while probes are running, and
- * you want to be sure the data is accurate, you can do
- * @verbatim
-#define NEED_STAT_LOCKS
-@endverbatim
- * This will insert per-cpu spinlocks around all accesses to Stat data,
- * which will reduce performance some.
+ * Stats keep track of count, sum, min, max, avg, and variance.  Bit-shift
+ * can be optionally specified, scaling the numbers, in order to improve the
+ * accuracy of the integer arithmetics.
  *
- * Stats keep track of count, sum, min and max. Average is computed
- * from the sum and count when required. Histograms are optional.
- * If you want a histogram, you must set "type" to HIST_LOG
- * or HIST_LINEAR when you call _stp_stat_init().
+ * Histograms are optional. If you want a histogram, you must set "type"
+ * to HIST_LOG or HIST_LINEAR when you call _stp_stat_init().
  *
  * @{
  */
@@ -84,11 +78,6 @@ static Stat _stp_stat_init (int type, ...)
 	if (st == NULL)
 		return NULL;
 
-	if (_stp_stat_initialize_locks(st) != 0) {
-		_stp_stat_free(st);
-		return NULL;
-	}
-
 	st->hist.type = type;
 	st->hist.start = start;
 	st->hist.stop = stop;
@@ -105,10 +94,8 @@ static Stat _stp_stat_init (int type, ...)
  */
 static void _stp_stat_del (Stat st)
 {
-	if (st) {
-		_stp_stat_destroy_locks(st);
+	if (st)
 		_stp_stat_free(st);
-	}
 }
 
 /** Add to a Stat.
