@@ -48,7 +48,7 @@
  * @param stop - An integer. The stopping value. Should be > start.
  * @param interval - An integer. The interval.
  */
-static Stat _stp_stat_init (int type, ...)
+static Stat _stp_stat_init (int stat_ops, int type, ...)
 {
 	int size, buckets=0, start=0, stop=0, interval=0, bit_shift=0;
 	Stat st;
@@ -84,6 +84,7 @@ static Stat _stp_stat_init (int type, ...)
 	st->hist.interval = interval;
 	st->hist.buckets = buckets;
 	st->hist.bit_shift = bit_shift;
+	st->hist.stat_ops = stat_ops;
 	return st;
 }
 

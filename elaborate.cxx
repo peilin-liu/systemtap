@@ -1290,8 +1290,27 @@ struct stat_decl_collector
     symbol *sym = get_symbol_within_expression (e->stat);
     statistic_decl new_stat = statistic_decl();
     int bit_shift = (e->params.size() == 0) ? 0 : e->params[0];
+    int stat_op = STAT_OP_NONE;
+
+    // The following helps to track which statistical operators are being
+    // used with given global/local variable.  This information later helps
+    // to optimize the runtime behaviour.
+
+    if (e->tok->content == "@count")
+      stat_op = STAT_OP_COUNT;
+    else if (e->tok->content == "@sum")
+      stat_op = STAT_OP_SUM;
+    else if (e->tok->content == "@min")
+      stat_op = STAT_OP_MIN;
+    else if (e->tok->content == "@max")
+      stat_op = STAT_OP_MAX;
+    else if (e->tok->content == "@avg")
+      stat_op = STAT_OP_AVG;
+    else if (e->tok->content == "@variance")
+      stat_op = STAT_OP_VARIANCE;
 
     new_stat.bit_shift = bit_shift;
+    new_stat.stat_ops |= stat_op;
 
     map<interned_string, statistic_decl>::iterator i = session.stat_decls.find(sym->name);
     if (i == session.stat_decls.end())
@@ -1314,14 +1333,17 @@ struct stat_decl_collector
         {
           // FIXME: Support multiple co-declared bit shifts
           // (analogy to multiple co-declared histogram types)
-          semantic_error se(ERR_SRC, _F("multiple bit shifts declared on '%s' (%ld, %d)",
+          semantic_error se(ERR_SRC, _F("multiple bit shifts declared on '%s' (%d, %d)",
                                         sym->name.to_string().c_str(),
                                         i->second.bit_shift, bit_shift),
                             e->tok);
           session.print_error (se);
         }
       else
-        i->second.bit_shift = bit_shift;
+        {
+          i->second.bit_shift = bit_shift;
+	  i->second.stat_ops |= stat_op;
+	}
   }
 
   void visit_assignment (assignment* e)

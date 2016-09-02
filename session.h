@@ -33,6 +33,15 @@ extern "C" {
 #include "util.h"
 #include "stringtable.h"
 
+/* statistical operations used with a global */
+#define STAT_OP_NONE      1 << 0
+#define STAT_OP_COUNT     1 << 1
+#define STAT_OP_SUM       1 << 2
+#define STAT_OP_MIN       1 << 3
+#define STAT_OP_MAX       1 << 4
+#define STAT_OP_AVG       1 << 5
+#define STAT_OP_VARIANCE  1 << 6
+
 // forward decls for all referenced systemtap types
 class stap_hash;
 class match_node;
@@ -72,20 +81,22 @@ struct statistic_decl
 {
   statistic_decl()
     : type(none),
-      linear_low(0), linear_high(0), linear_step(0), bit_shift(0)
+      linear_low(0), linear_high(0), linear_step(0), bit_shift(0), stat_ops(0)
   {}
   enum { none, linear, logarithmic } type;
   int64_t linear_low;
   int64_t linear_high;
   int64_t linear_step;
-  int64_t bit_shift;
+  int bit_shift;
+  int stat_ops;
   bool operator==(statistic_decl const & other)
   {
     return type == other.type
       && linear_low == other.linear_low
       && linear_high == other.linear_high
       && linear_step == other.linear_step
-      && bit_shift == other.bit_shift;
+      && bit_shift == other.bit_shift
+      && stat_ops == other.stat_ops;
   }
 };
 

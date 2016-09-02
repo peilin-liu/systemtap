@@ -20,6 +20,15 @@
 #define HIST_LOG_BUCKETS 128
 #define HIST_LOG_BUCKET0 64
 
+/* statistical operations used with a global */
+#define STAT_OP_NONE      1 << 0
+#define STAT_OP_COUNT     1 << 1
+#define STAT_OP_SUM       1 << 2
+#define STAT_OP_MIN       1 << 3
+#define STAT_OP_MAX       1 << 4
+#define STAT_OP_AVG       1 << 5
+#define STAT_OP_VARIANCE  1 << 6
+
 /** histogram type */
 enum histtype { HIST_NONE, HIST_LOG, HIST_LINEAR };
 
@@ -27,6 +36,7 @@ enum histtype { HIST_NONE, HIST_LOG, HIST_LINEAR };
     and is variable length due to the unknown size of the histogram. */
 struct stat_data {
 	int shift;
+	int stat_ops;
 	int64_t count;
 	int64_t sum;
 	int64_t min, max;
@@ -49,6 +59,7 @@ struct _Hist {
 	int interval;
 	int buckets;
 	int bit_shift;
+	int stat_ops;
 };
 typedef struct _Hist *Hist;
 

@@ -480,7 +480,7 @@ public:
           if (local)
             throw SEMANTIC_ERROR(_F("unsupported local stats init for %s", value().c_str()));
 
-          string prefix = "global_set(" + c_name() + ", _stp_stat_init (";
+          string prefix = "global_set(" + c_name() + ", _stp_stat_init (" + lex_cast(sd.stat_ops) + ", ";
           // Check for errors during allocation.
           string suffix = "if (" + value () + " == NULL) rc = -ENOMEM;";
 

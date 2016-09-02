@@ -298,6 +298,7 @@ static void __stp_stat_add(Hist st, stat_data *sd, int64_t val)
 	 * https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 	 */
 	sd->shift = st->bit_shift;
+	sd->stat_ops = st->stat_ops;
 	if (sd->count == 0) {
 		sd->count = 1;
 		sd->sum = sd->min = sd->max = val;
@@ -310,10 +311,19 @@ static void __stp_stat_add(Hist st, stat_data *sd, int64_t val)
 			sd->max = val;
 		if (val < sd->min)
 			sd->min = val;
-		delta = (val << sd->shift) - sd->avg_s;
-		sd->avg_s += _stp_div64(NULL, delta, sd->count);
-		sd->_M2 += delta * ((val << sd->shift) - sd->avg_s);
-		sd->variance_s = (sd->count < 2) ? -1 : _stp_div64(NULL, sd->_M2, (sd->count - 1));
+		/*
+		 * Following is an optimization that improves performance
+		 * in case @variance() isn't used with given global.
+		 *
+		 * Note that this doesn't affect computing of @avg(), which
+		 * happens within the per-CPU aggregation functions.
+		 */
+		if (sd->stat_ops & STAT_OP_VARIANCE) {
+		    delta = (val << sd->shift) - sd->avg_s;
+		    sd->avg_s += _stp_div64(NULL, delta, sd->count);
+		    sd->_M2 += delta * ((val << sd->shift) - sd->avg_s);
+		    sd->variance_s = (sd->count < 2) ? -1 : _stp_div64(NULL, sd->_M2, (sd->count - 1));
+		}
 	}
 
 	switch (st->type) {

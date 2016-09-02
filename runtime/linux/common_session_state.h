@@ -59,6 +59,7 @@ static struct stp_globals stp_global;
 static int stp_session_init(void)
 {
 	size_t i;
+	int ops = STAT_OP_MIN|STAT_OP_MAX|STAT_OP_AVG;
 
 	// The session_state and error/skip counts have static initialization.
 
@@ -73,8 +74,8 @@ static int stp_session_init(void)
 	for (i = 0; i < STP_PROBE_COUNT; ++i)
 		// NB: we don't check for null return here, but instead at
 		// passage to probe handlers and at final printing.
-		g_probe_timing[i] = _stp_stat_init(HIST_NONE);
-	g_refresh_timing = _stp_stat_init(HIST_NONE);
+		g_probe_timing[i] = _stp_stat_init(ops, HIST_NONE);
+	g_refresh_timing = _stp_stat_init(ops, HIST_NONE);
 #endif
 
 	return 0;
