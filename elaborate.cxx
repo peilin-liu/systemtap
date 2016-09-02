@@ -1342,7 +1342,7 @@ struct stat_decl_collector
       else
         {
           i->second.bit_shift = bit_shift;
-	  i->second.stat_ops |= stat_op;
+          i->second.stat_ops |= stat_op;
 	}
   }
 

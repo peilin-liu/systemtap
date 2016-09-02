@@ -448,6 +448,7 @@ static int _new_map_set_stat (MAP map, struct stat_data *sd, int64_t val, int ad
 		}
 	}
 	(&map->hist)->bit_shift = map->bit_shift;
+	(&map->hist)->stat_ops = map->stat_ops;
 	__stp_stat_add (&map->hist, sd, val);
 	return 0;
 }

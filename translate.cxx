@@ -809,7 +809,7 @@ struct mapvar
       throw SEMANTIC_ERROR(_F("unsupported local map init for %s", value().c_str()));
 
     string prefix = "global_set(" + c_name() + ", ";
-    prefix += function_keysym("new") + " ("
+    prefix += function_keysym("new") + " (" + lex_cast(sd.stat_ops) + ", "
       + (maxsize > 0 ? lex_cast(maxsize) : "MAXMAPENTRIES")
       + ((wrap == true) ? ", 1" : ", 0");
 
