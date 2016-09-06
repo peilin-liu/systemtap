@@ -810,7 +810,7 @@ struct mapvar
 
     string prefix = "global_set(" + c_name() + ", ";
     prefix += function_keysym("new") + " ("
-      + ((function_keysym("new").find("_stp_pmap_new") != std::string::npos) ? lex_cast(sd.stat_ops) + ", " : "")
+      + (is_parallel() ? lex_cast(sd.stat_ops) + ", " : "")
       + (maxsize > 0 ? lex_cast(maxsize) : "MAXMAPENTRIES")
       + ((wrap == true) ? ", 1" : ", 0");
 
