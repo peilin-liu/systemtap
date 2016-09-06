@@ -7275,13 +7275,18 @@ add_unwindsym_ldd (systemtap_session &s)
       assert (modname.length() != 0);
       if (! is_user_module (modname)) continue;
 
-      dwflpp mod_dwflpp (s, modname, false);
-      mod_dwflpp.iterate_over_modules(&query_module, &mod_dwflpp);
-      if (mod_dwflpp.module) // existing binary
+      (void) query_module;
+      (void) dump_unwindsyms;
+      (void) dump_kallsyms;
+#if 0       /* XXXX */
+      dwflpp *mod_dwflpp = s.get_user_dw(modname);
+      mod_dwflpp->iterate_over_modules(&query_module, mod_dwflpp);
+      if (mod_dwflpp->module) // existing binary
         {
-          assert (mod_dwflpp.module_name != "");
-          mod_dwflpp.iterate_over_libraries (&add_unwindsym_iol_callback, &added);
+          assert (mod_dwflpp->module_name != "");
+          mod_dwflpp->iterate_over_libraries (&add_unwindsym_iol_callback, &added);
         }
+#endif
     }
 
   s.unwindsym_modules.insert (added.begin(), added.end());
@@ -7394,6 +7399,7 @@ emit_symbol_data (systemtap_session& s)
       return;
     }
 
+#if 0 /* XXXXXXXXXXXXXXXXXX */
   // ---- step 1: process any kernel modules listed
   set<string> offline_search_modules;
   unsigned count;
@@ -7451,6 +7457,7 @@ emit_symbol_data (systemtap_session& s)
   // Use /proc/kallsyms if debuginfo not found.
   if (ctx.undone_unwindsym_modules.find("kernel") != ctx.undone_unwindsym_modules.end())
     dump_kallsyms(&ctx);
+#endif
 
   emit_symbol_data_done (&ctx, s);
 }

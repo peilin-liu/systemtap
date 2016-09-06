@@ -65,6 +65,7 @@ struct semantic_error;
 struct module_cache;
 struct update_visitor;
 struct compile_server_cache;
+class dwflpp;
 
 // XXX: a generalized form of this descriptor could be associated with
 // a vardecl instead of out here at the systemtap_session level.
@@ -246,6 +247,15 @@ public:
   enum { kernel_runtime, dyninst_runtime } runtime_mode;
   bool runtime_usermode_p() const { return runtime_mode == dyninst_runtime; }
 
+  // managed from tapsets.cxx
+private:
+  dwflpp *kern_dw;
+  dwflpp *user_dw;
+public:
+  dwflpp *get_kern_dw();
+  dwflpp *get_user_dw();
+  void build_no_more(); // throw away dwflpp*'s
+  
   // NB: It is very important for all of the above (and below) fields
   // to be cleared in the systemtap_session ctor (session.cxx).
 
@@ -389,7 +399,7 @@ public:
   // List of libdwfl module names to extract symbol/unwind data for.
   std::set<std::string> unwindsym_modules;
   bool unwindsym_ldd;
-  struct module_cache* module_cache;
+  struct module_cache* module_cache; // populated by tapsets.cxx query_module
   std::vector<std::string> build_ids;
 
   // Secret benchmarking options

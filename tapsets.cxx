@@ -966,8 +966,6 @@ static void delete_session_module_cache (systemtap_session& s); // forward decl
 
 struct dwarf_builder: public derived_probe_builder
 {
-  map <string,dwflpp*> kern_dw; /* NB: key string could be a wildcard */
-  map <string,dwflpp*> user_dw;
   interned_string user_path;
   interned_string user_lib;
 
@@ -977,36 +975,14 @@ struct dwarf_builder: public derived_probe_builder
 
   dwarf_builder() {}
 
-  dwflpp *get_kern_dw(systemtap_session& sess, const string& module)
-  {
-    if (kern_dw[module] == 0)
-      kern_dw[module] = new dwflpp(sess, module, true); // might throw
-    return kern_dw[module];
-  }
-
-  dwflpp *get_user_dw(systemtap_session& sess, const string& module)
-  {
-    if (user_dw[module] == 0)
-      user_dw[module] = new dwflpp(sess, module, false); // might throw
-    return user_dw[module];
-  }
-
-  /* NB: not virtual, so can be called from dtor too: */
-  void dwarf_build_no_more (bool)
-  {
-    delete_map(kern_dw);
-    delete_map(user_dw);
-  }
-
   void build_no_more (systemtap_session &s)
   {
-    dwarf_build_no_more (s.verbose > 3);
+    s.build_no_more();
     delete_session_module_cache (s);
   }
 
   ~dwarf_builder()
   {
-    dwarf_build_no_more (false);
   }
 
   virtual void build(systemtap_session & sess,
@@ -4680,12 +4656,14 @@ void dwarf_cast_expanding_visitor::visit_cast_op (cast_op* e)
 	  if (! userspace_p)
 	    {
 	      // kernel or kernel module target
-	      dw = db.get_kern_dw(s, module);
+	      dw = s.get_kern_dw();
+	      dw->report(module);
 	    }
 	  else
 	    {
               module = find_executable (module, "", s.sysenv); // canonicalize it
-	      dw = db.get_user_dw(s, module);
+	      dw = s.get_user_dw();
+              dw->report(module);
 	    }
 	}
       catch (const semantic_error& er)
@@ -4911,12 +4889,14 @@ dwarf_atvar_expanding_visitor::visit_atvar_op (atvar_op* e)
           if (!userspace_p)
             {
               // kernel or kernel module target
-              dw = db.get_kern_dw(s, module);
+              dw = s.get_kern_dw();
+              dw->report(module);
             }
           else
             {
               module = find_executable(module, "", s.sysenv);
-              dw = db.get_user_dw(s, module);
+              dw = s.get_user_dw();
+              dw->report(module);
             }
         }
       catch (const semantic_error& er)
@@ -7922,7 +7902,8 @@ dwarf_builder::build(systemtap_session & sess,
   int64_t proc_pid;
   if (has_null_param (parameters, TOK_KERNEL))
     {
-      dw = get_kern_dw(sess, "kernel");
+      dw = sess.get_kern_dw();
+      dw->report("kernel");
     }
   else if (get_param (parameters, TOK_MODULE, module_name))
     {
@@ -7931,7 +7912,8 @@ dwarf_builder::build(systemtap_session & sess,
 
       // NB: glob patterns get expanded later, during the offline
       // elfutils module listing.
-      dw = get_kern_dw(sess, module_name);
+      dw = sess.get_kern_dw();
+      dw->report(module_name);
     }
   else if (has_param(filled_parameters, TOK_PROCESS))
       {
@@ -8262,7 +8244,8 @@ dwarf_builder::build(systemtap_session & sess,
 
       // user-space target; we use one dwflpp instance per module name
       // (= program or shared library)
-      dw = get_user_dw(sess, module_name);
+      dw = sess.get_user_dw();
+      dw->report(module_name);
     }
 
   assert(dw);
@@ -8394,7 +8377,8 @@ dwarf_builder::build(systemtap_session & sess,
   interned_string func;
   if (results_pre == results_post && !location->from_globby_comp(TOK_FUNCTION)
       && get_param(filled_parameters, TOK_FUNCTION, func)
-      && !func.empty())
+      && !func.empty()
+      && (sess.dump_mode == systemtap_session::dump_none))
     {
       string sugs = suggest_dwarf_functions(sess, modules_seen, func);
       modules_seen.clear();
@@ -8406,7 +8390,8 @@ dwarf_builder::build(systemtap_session & sess,
     }
   else if (results_pre == results_post && !location->from_globby_comp(TOK_PLT)
            && get_param(filled_parameters, TOK_PLT, func)
-           && !func.empty())
+           && !func.empty()
+           && (sess.dump_mode == systemtap_session::dump_none))
     {
       string sugs = suggest_plt_functions(sess, modules_seen, func);
       modules_seen.clear();
@@ -11475,15 +11460,10 @@ private:
 public:
 
   tracepoint_builder(): dw(0) {}
-  ~tracepoint_builder() { delete dw; }
+  ~tracepoint_builder() { /* don't delete dw; belongs to systemtap_session */ }
 
   void build_no_more (systemtap_session& s)
   {
-    if (dw && s.verbose > 3)
-      clog << _("tracepoint_builder releasing dwflpp") << endl;
-    delete dw;
-    dw = NULL;
-
     delete_session_module_cache (s);
   }
 
@@ -11652,13 +11632,14 @@ tracepoint_builder::init_dw(systemtap_session& s)
   // find kernel_source_tree from DW_AT_comp_dir
   if (s.kernel_source_tree == "")
     {
-      unsigned found;
-      Dwfl *dwfl = setup_dwfl_kernel ("kernel", &found, s);
-      if (found)
+      dwflpp *dwflpp = s.get_kern_dw ();
+      dwflpp->report("kernel" /* XXX: , false? */ );
+      Dwfl_Module* mod = dwflpp->find_module("kernel");
+      if (mod)
         {
           Dwarf_Die *cudie = 0;
           Dwarf_Addr bias;
-          while ((cudie = dwfl_nextcu (dwfl, cudie, &bias)) != NULL)
+          while ((cudie = dwfl_module_nextcu (mod, cudie, &bias)) != NULL)
             {
               assert_no_interrupts();
               Dwarf_Attribute attr;
@@ -11688,7 +11669,6 @@ tracepoint_builder::init_dw(systemtap_session& s)
                 }
             }
         }
-      dwfl_end (dwfl);
     }
 
   // find kernel_source_tree from a source link, when different from build
@@ -11787,7 +11767,10 @@ tracepoint_builder::init_dw(systemtap_session& s)
   // TODO: consider other sources of tracepoint headers too, like from
   // a command-line parameter or some environment or .systemtaprc
 
-  dw = new dwflpp(s, tracequery_modules, true);
+  dw = s.get_kern_dw();
+  dw->report("kernel");
+  for (auto i = tracequery_modules.begin(); i != tracequery_modules.end(); ++i)
+    dw->report(*i);
   return true;
 }
 

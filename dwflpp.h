@@ -1,5 +1,5 @@
 // C++ interface to dwfl
-// Copyright (C) 2005-2015 Red Hat Inc.
+// Copyright (C) 2005-2016 Red Hat Inc.
 // Copyright (C) 2005-2007 Intel Corporation.
 // Copyright (C) 2008 James.Bottomley@HansenPartnership.com
 //
@@ -183,6 +183,9 @@ public:
   loc2c_context(): die(0), pc(0) {}
 };
 
+
+// A dwflpp instance owns an elfutils Dwfl* that contains a whole slew of Dwfl_Module*'s (binaries).
+// One of these may be "focused on" for other processing.
 struct dwflpp
 {
   systemtap_session & sess;
@@ -205,10 +208,11 @@ struct dwflpp
   // Needs updating before each loc2c c_translate call.
   struct loc2c_context l2c_ctx;
 
-  dwflpp(systemtap_session & session, const std::string& user_module, bool kernel_p);
-  dwflpp(systemtap_session & session, const std::vector<std::string>& user_modules, bool kernel_p);
+  dwflpp(systemtap_session & session, bool kernel_p);
   ~dwflpp();
-
+  void report(const std::string& module, bool debuginfo_needed = true);
+  Dwfl_Module* find_module(const std::string& name);
+  
   void get_module_dwarf(bool required = false, bool report = true);
 
   void focus_on_module(Dwfl_Module * m, module_info * mi);
@@ -487,15 +491,13 @@ struct dwflpp
   bool has_valid_locs();
 
 private:
-  Dwfl * dwfl;
-
+  Dwfl *dwfl;
+  bool kernel_p;
+  std::set<std::string> reported;
+  
   // These are "current" values we focus on.
   Dwarf * module_dwarf;
   Dwarf_Die * function;
-
-  void setup_kernel(const std::string& module_name, systemtap_session &s, bool debuginfo_needed = true);
-  void setup_kernel(const std::vector<std::string>& modules, bool debuginfo_needed = true);
-  void setup_user(const std::vector<std::string>& modules, bool debuginfo_needed = true);
 
   module_cu_cache_t module_cu_cache;
   module_tus_read_t module_tus_read;

@@ -26,6 +26,13 @@ extern "C" {
 
 std::string modname_from_path(const std::string &path);
 
+Dwfl* setup_dwfl_kernel(systemtap_session &s);
+Dwfl* setup_dwfl_user(systemtap_session &s);
+
+void report_dwfl_kernel(Dwfl* dwfl, const std::string& name, systemtap_session &s);
+void report_dwfl_user(Dwfl* dwfl, const std::string& name, systemtap_session &s);
+
+#if 0
 Dwfl *setup_dwfl_kernel(const std::string &name,
 			  unsigned *found,
 			  systemtap_session &s);
@@ -37,6 +44,7 @@ Dwfl *setup_dwfl_user(const std::string &name);
 Dwfl *setup_dwfl_user(std::vector<std::string>::const_iterator &begin,
 		        const std::vector<std::string>::const_iterator &end,
 		        bool all_needed, systemtap_session &s);
+#endif
 
 // user-space files must be full paths and not end in .ko
 bool is_user_module(const std::string &m);

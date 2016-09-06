@@ -80,10 +80,6 @@ static const char *offline_search_modname;
 static set<string> offline_search_names;
 static unsigned offline_modules_found;
 
-// Whether or not we are done reporting kernel modules in
-// set_dwfl_report_kernel_p().
-static bool setup_dwfl_done;
-
 // Determines whether or not we will make setup_dwfl_report_kernel_p
 // report true for all module dependencies. This is necessary for
 // correctly resolving some dwarf constructs that relocate against
@@ -111,6 +107,10 @@ static const string abrt_path =
 // derived from the path, but from the .gnu.linkonce.this_module section of the
 // KO. In practice, modules in /lib/modules/ respect this convention, and we
 // require it as well for out-of-tree kernel modules.
+//
+// NB: This has resulted in user confusion, whereby someone renames a .ko file
+// and expects systemtap to process it, or if a module undergoes runtime renaming
+// (as per staprun -R).  Parsing the this_module section would be better.  XXX
 string
 modname_from_path(const string &path)
 {
@@ -183,7 +183,7 @@ setup_mod_deps()
 	    {
 	      if (dwflpp::name_has_wildcard (offline_search_modname))
 		{
-		  dep_needed = !fnmatch (offline_search_modname,
+ 		  dep_needed = !fnmatch (offline_search_modname,
 					 modname.c_str (), 0);
 		  if (dep_needed)
 		    offline_search_names.insert (modpath);
@@ -237,17 +237,15 @@ setup_mod_deps()
   offline_search_modname = NULL;
 }
 
+
 // Set up our offline search for kernel modules.  We don't want the
 // offline search iteration to do a complete search of the kernel
 // build tree, since that's wasteful, so create a predicate that
 // filters and stops reporting as soon as we got everything.
-static int
+int
 setup_dwfl_report_kernel_p(const char* modname, const char* filename)
 {
   assert_no_interrupts();
-
-  if (setup_dwfl_done)
-    return -1;
 
   assert (current_session_for_find_debuginfo);
   if (current_session_for_find_debuginfo->verbose > 4)
@@ -269,7 +267,7 @@ setup_dwfl_report_kernel_p(const char* modname, const char* filename)
 	   && ! strcmp (offline_search_modname, "kernel"))
 	  || (offline_search_names.size() == 1
 	      && *offline_search_names.begin() == "kernel"))
-	setup_dwfl_done = true;
+	;
       else
 	setup_mod_deps();
 
@@ -300,7 +298,6 @@ setup_dwfl_report_kernel_p(const char* modname, const char* filename)
 	    {
 	      // Done, only one name needed and found it.
 	      offline_modules_found++;
-	      setup_dwfl_done = true;
 	      return 1;
 	    }
 	}
@@ -313,7 +310,7 @@ setup_dwfl_report_kernel_p(const char* modname, const char* filename)
 	{
 	  offline_modules_found++;
 	  if (offline_search_names.size() == offline_modules_found)
-	    setup_dwfl_done = true;
+            { }
 	  return 1;
 	}
     }
@@ -339,196 +336,107 @@ static char * path_insert_sysroot(string sysroot, string path)
 
 void debuginfo_path_insert_sysroot(string sysroot)
 {
-  debuginfo_path = path_insert_sysroot(sysroot, debuginfo_path);
+  debuginfo_path = path_insert_sysroot(sysroot, debuginfo_path); // XXX: c_str
   debuginfo_usr_path = path_insert_sysroot(sysroot, debuginfo_usr_path);
 }
 
-static Dwfl *
-setup_dwfl_kernel (unsigned *modules_found, systemtap_session &s)
+
+
+
+Dwfl*
+setup_dwfl_kernel(systemtap_session &s)
 {
+  (void) s;
   Dwfl *dwfl = dwfl_begin (&kernel_callbacks);
   DWFL_ASSERT ("dwfl_begin", dwfl);
-  dwfl_report_begin (dwfl);
+  return dwfl;
+}
 
-  // We have a problem with -r REVISION vs -r BUILDDIR here.  If
-  // we're running against a fedora/rhel style kernel-debuginfo
-  // tree, s.kernel_build_tree is not the place where the unstripped
-  // vmlinux will be installed.  Rather, it's over yonder at
-  // /usr/lib/debug/lib/modules/$REVISION/.  It seems that there is
-  // no way to set the dwfl_callback.debuginfo_path and always
-  // passs the plain kernel_release here.  So instead we have to
-  // hard-code this magic here.
-  if (s.kernel_build_tree == string(s.sysroot + "/lib/modules/"
-				    + s.kernel_release
-				    + "/build"))
-    elfutils_kernel_path = s.kernel_release;
-  else
-    elfutils_kernel_path = s.kernel_build_tree;
 
-  offline_modules_found = 0;
 
-  // First try to report full path modules.
-  set<string>::iterator it = offline_search_names.begin();
-  int kernel = 0;
-  while (it != offline_search_names.end())
+void
+report_dwfl_kernel(Dwfl* dwfl, const std::string& name, systemtap_session &s)
+{
+  if (name == "") return;
+  current_session_for_find_debuginfo = &s;
+  if (! s.module_cache)
+    s.module_cache = new module_cache ();
+  
+  dwfl_report_begin_add (dwfl);
+
+  // a full-path-name module
+  if (name[0] == '/')
     {
-      if ((*it)[0] == '/')
-        {
-          const char *cname = (*it).c_str();
-          Dwfl_Module *mod = dwfl_report_offline (dwfl, cname, cname, -1);
-          if (mod)
-            offline_modules_found++;
-        }
-      else if ((*it) == "kernel")
-        kernel = 1;
-      it++;
+      (void) dwfl_report_offline (dwfl, name.c_str(), name.c_str(), -1);
     }
-
-    // We always need this, even when offline_search_modname is NULL
-    // and offline_search_names is empty because we still might want
-    // the kernel vmlinux reported.
-  setup_dwfl_done = false;
-  int rc = dwfl_linux_kernel_report_offline (dwfl,
-                                             elfutils_kernel_path.c_str(),
-					     &setup_dwfl_report_kernel_p);
-
-  (void) rc; /* Ignore since the predicate probably returned -1 at some point,
-                And libdwfl interprets that as "whole query failed" rather than
-                "found it already, stop looking". */
-
-  // NB: the result of an _offline call is the assignment of
-  // virtualized addresses to relocatable objects such as
-  // modules.  These have to be converted to real addresses at
-  // run time.  See the dwarf_derived_probe ctor and its caller.
-
-  // If no modules were found, and we are probing the kernel,
-  // attempt to download the kernel debuginfo.
-  if(kernel)
+  // a module under the normal paths
+  else
     {
+      // We have a problem with -r REVISION vs -r BUILDDIR here.  If
+      // we're running against a fedora/rhel style kernel-debuginfo
+      // tree, s.kernel_build_tree is not the place where the unstripped
+      // vmlinux will be installed.  Rather, it's over yonder at
+      // /usr/lib/debug/lib/modules/$REVISION/.  It seems that there is
+      // no way to set the dwfl_callback.debuginfo_path and always
+      // passs the plain kernel_release here.  So instead we have to
+      // hard-code this magic here.
+      if (s.kernel_build_tree == string(s.sysroot + "/lib/modules/"
+                                        + s.kernel_release
+                                        + "/build"))
+        elfutils_kernel_path = s.kernel_release;
+      else
+        elfutils_kernel_path = s.kernel_build_tree;
+
+      offline_modules_found = 0;
+      offline_search_modname = name.c_str(); // NB: could be a wildcard
+      (void) dwfl_linux_kernel_report_offline (dwfl,
+                                               elfutils_kernel_path.c_str(),
+                                               &setup_dwfl_report_kernel_p);
+
       // Get the kernel build ID. We still need to call this even if we
       // already have the kernel debuginfo installed as it adds the
       // build ID to the script hash.
       string hex = get_kernel_build_id(s);
       if (offline_modules_found == 0 && s.download_dbinfo != 0 && !hex.empty())
         {
-          rc = download_kernel_debuginfo(s, hex);
-          if(rc >= 0)
-            {
-              dwfl_end (dwfl);
-              return setup_dwfl_kernel (modules_found, s);
-            }
+          int rc = download_kernel_debuginfo(s, hex);
+          if(rc >= 0) // Success: try one more time
+            (void) dwfl_linux_kernel_report_offline (dwfl,
+                                                     elfutils_kernel_path.c_str(),
+                                                     &setup_dwfl_report_kernel_p);
         }
     }
 
   DWFL_ASSERT ("dwfl_report_end", dwfl_report_end(dwfl, NULL, NULL));
-  *modules_found = offline_modules_found;
+}
 
+
+Dwfl*
+setup_dwfl_user(systemtap_session &s)
+{
+  (void) s;
+  Dwfl *dwfl = dwfl_begin (&user_callbacks);
+  DWFL_ASSERT("dwfl_begin", dwfl);
   return dwfl;
 }
 
-Dwfl*
-setup_dwfl_kernel(const std::string &name,
-		  unsigned *found,
-		  systemtap_session &s)
+
+void
+report_dwfl_user(Dwfl* dwfl, const std::string& name, systemtap_session &s)
 {
+  if (name == "") return;
   current_session_for_find_debuginfo = &s;
-  const char *modname = name.c_str();
-  set<string> names; // Default to empty
+  if (! s.module_cache)
+    s.module_cache = new module_cache ();
 
-  /* Support full path kernel modules, these cannot be regular
-     expressions, so just put them in the search set. */
-  if (name[0] == '/' || ! dwflpp::name_has_wildcard (modname))
-    {
-      names.insert(name);
-      modname = NULL;
-    }
-
-  offline_search_modname = modname;
-  offline_search_names = names;
-
-  return setup_dwfl_kernel(found, s);
-}
-
-Dwfl*
-setup_dwfl_kernel(const std::set<std::string> &names,
-		  unsigned *found,
-		  systemtap_session &s)
-{
-  current_session_for_find_debuginfo = &s;
-
-  offline_search_modname = NULL;
-  offline_search_names = names;
-  return setup_dwfl_kernel(found, s);
-}
-
-Dwfl*
-setup_dwfl_user(const std::string &name)
-{
-  Dwfl *dwfl = dwfl_begin (&user_callbacks);
-  DWFL_ASSERT("dwfl_begin", dwfl);
-  dwfl_report_begin (dwfl);
-
-  // XXX: should support buildid-based naming
-  const char *cname = name.c_str();
-  Dwfl_Module *mod = dwfl_report_offline (dwfl, cname, cname, -1);
+  dwfl_report_begin_add (dwfl);
+  
+  (void) dwfl_report_offline (dwfl, name.c_str(), name.c_str(), -1);
+    
   DWFL_ASSERT ("dwfl_report_end", dwfl_report_end(dwfl, NULL, NULL));
-  if (! mod)
-    {
-      dwfl_end(dwfl);
-      dwfl = NULL;
-    }
-
-  return dwfl;
 }
 
-Dwfl*
-setup_dwfl_user(std::vector<std::string>::const_iterator &begin,
-		const std::vector<std::string>::const_iterator &end,
-		bool all_needed, systemtap_session &s)
-{
-  current_session_for_find_debuginfo = &s;
-  // See if we have this dwfl already cached
-  set<string> modset(begin, end);
 
-  Dwfl *dwfl = dwfl_begin (&user_callbacks);
-  DWFL_ASSERT("dwfl_begin", dwfl);
-  dwfl_report_begin (dwfl);
-  Dwfl_Module *mod = NULL;
-  // XXX: should support buildid-based naming
-  while (begin != end && dwfl != NULL)
-    {
-      const char *cname = (*begin).c_str();
-      mod = dwfl_report_offline (dwfl, cname, cname, -1);
-      if (! mod && all_needed)
-	{
-	  dwfl_end(dwfl);
-	  dwfl = NULL;
-	}
-      begin++;
-    }
-
-  /* Extract the build id and add it to the session variable
-   * so it will be added to the script hash */
-  if (mod)
-    {
-      const unsigned char *bits;
-      GElf_Addr vaddr;
-      if(s.verbose > 2)
-        clog << _("Extracting build ID.") << endl;
-      int bits_length = dwfl_module_build_id(mod, &bits, &vaddr);
-
-      /* Convert the binary bits to a hex string */
-      string hex = hex_dump(bits, bits_length);
-
-      //Store the build ID in the session
-      s.build_ids.push_back(hex);
-    }
-
-  if (dwfl)
-    DWFL_ASSERT ("dwfl_report_end", dwfl_report_end(dwfl, NULL, NULL));
-
-  return dwfl;
-}
 
 bool
 is_user_module(const std::string &m)
@@ -818,6 +726,7 @@ int download_kernel_debuginfo (systemtap_session &s, string hex)
   // than just the stap process.
 
   // Don't try this again if we already did.
+  // XXX: this should be session/version-specific
   static int already_tried_downloading_kernel_debuginfo = 0;
   if(already_tried_downloading_kernel_debuginfo)
     return -1;

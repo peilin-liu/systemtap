@@ -25,6 +25,7 @@
 #include "version.h"
 #include "stringtable.h"
 #include "tapsets.h"
+#include "dwflpp.h"
 
 #include <cerrno>
 #include <cstdlib>
@@ -160,6 +161,8 @@ systemtap_session::systemtap_session ():
   compatible = VERSION; // XXX: perhaps also process GIT_SHAID if available?
   unwindsym_ldd = false;
   client_options = false;
+  kern_dw = 0;
+  user_dw = 0;
   server_cache = NULL;
   auto_privilege_level_msg = "";
   auto_server_msgs.clear ();
@@ -2539,6 +2542,30 @@ assert_no_interrupts()
 {
   if (pending_interrupts)
     throw interrupt_exception();
+}
+
+
+dwflpp*
+systemtap_session::get_kern_dw()
+{
+  if (this->kern_dw == 0)
+    this->kern_dw = new dwflpp(*this, true);
+  return this->kern_dw;
+}
+dwflpp*
+systemtap_session::get_user_dw()
+{
+  if (this->user_dw == 0)
+    this->user_dw = new dwflpp(*this, false);
+  return this->user_dw;
+}
+void
+systemtap_session::build_no_more()
+{
+  delete this->kern_dw;
+  this->kern_dw = 0;
+  delete this->user_dw;
+  this->user_dw = 0;
 }
 
 std::string

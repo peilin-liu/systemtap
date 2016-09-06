@@ -1,5 +1,5 @@
 // C++ interface to dwfl
-// Copyright (C) 2005-2015 Red Hat Inc.
+// Copyright (C) 2005-2016 Red Hat Inc.
 // Copyright (C) 2005-2007 Intel Corporation.
 // Copyright (C) 2008 James.Bottomley@HansenPartnership.com
 //
@@ -88,33 +88,25 @@ struct obstack_tracker
 };
 
 
-dwflpp::dwflpp(systemtap_session & session, const string& name, bool kernel_p):
+dwflpp::dwflpp(systemtap_session & session, bool kernel_p):
   sess(session), module(NULL), module_bias(0), mod_info(NULL),
-  module_start(0), module_end(0), cu(NULL), dwfl(NULL),
+  module_start(0), module_end(0), cu(NULL), dwfl(NULL), kernel_p(kernel_p), 
   module_dwarf(NULL), function(NULL), blacklist_func(), blacklist_func_ret(),
-  blacklist_file(),  blacklist_enabled(false)
+  blacklist_file(), blacklist_enabled(false)
 {
+  // hop over to setupdwfl.cxx to set up our initially-empty Dwfl*
   if (kernel_p)
-    setup_kernel(name, session);
+    {
+      dwfl = setup_dwfl_kernel(session);
+      build_kernel_blacklist();
+    }
   else
     {
-      vector<string> modules;
-      modules.push_back(name);
-      setup_user(modules);
+      dwfl = setup_dwfl_user(session);
+      build_user_blacklist();
     }
 }
 
-dwflpp::dwflpp(systemtap_session & session, const vector<string>& names,
-	       bool kernel_p):
-  sess(session), module(NULL), module_bias(0), mod_info(NULL),
-  module_start(0), module_end(0), cu(NULL), dwfl(NULL),
-  module_dwarf(NULL), function(NULL), blacklist_enabled(false)
-{
-  if (kernel_p)
-    setup_kernel(names);
-  else
-    setup_user(names);
-}
 
 dwflpp::~dwflpp()
 {
@@ -335,11 +327,56 @@ dwflpp::function_scope_matches(const vector<string>& scopes)
 
 
 void
+dwflpp::report(const std::string& module, bool debuginfo_needed)
+{
+  // don't try to search for same module more than once
+  if (this->reported.find(module) != this->reported.end())
+    return;
+  this->reported.insert(module);
+
+  if (kernel_p)
+    report_dwfl_kernel(this->dwfl, module, sess);
+  else
+    report_dwfl_user(this->dwfl, module, sess);
+  (void) debuginfo_needed;
+}
+
+
+struct find_module_ctl {
+  const char* find_module_name;
+  Dwfl_Module* find_module_found;
+};
+
+
+int find_module_query (Dwfl_Module *mod,
+                       void **,
+                       const char *name,
+                       Dwarf_Addr,
+                       struct find_module_ctl *ctl)
+{
+  assert (ctl != 0);
+  if (name && !strcmp(name, ctl->find_module_name))
+    {
+      ctl->find_module_found = mod;
+      return DWARF_CB_ABORT;
+    }
+  return DWARF_CB_OK;
+}
+
+
+Dwfl_Module*
+dwflpp::find_module(const std::string& name)
+{
+  find_module_ctl ctl { name.c_str(), 0 };
+  this->iterate_over_modules<find_module_ctl>(&find_module_query, &ctl);
+  return ctl.find_module_found;
+}
+
+
+#if 0
+void
 dwflpp::setup_kernel(const string& name, systemtap_session & s, bool debuginfo_needed)
 {
-  if (! sess.module_cache)
-    sess.module_cache = new module_cache ();
-
   unsigned offline_search_matches = 0;
   dwfl = setup_dwfl_kernel(name, &offline_search_matches, sess);
 
@@ -366,15 +403,11 @@ dwflpp::setup_kernel(const string& name, systemtap_session & s, bool debuginfo_n
       DWFL_ASSERT("dwfl_getmodules", off == 0);
     }
 
-  build_kernel_blacklist();
-}
+
 
 void
 dwflpp::setup_kernel(const vector<string> &names, bool debuginfo_needed)
 {
-  if (! sess.module_cache)
-    sess.module_cache = new module_cache ();
-
   unsigned offline_search_matches = 0;
   set<string> offline_search_names(names.begin(), names.end());
   dwfl = setup_dwfl_kernel(offline_search_names,
@@ -397,11 +430,8 @@ dwflpp::setup_kernel(const vector<string> &names, bool debuginfo_needed)
 
 
 void
-dwflpp::setup_user(const vector<string>& modules, bool debuginfo_needed)
+dwflpp::extend(const vector<string>& modules, bool debuginfo_needed)
 {
-  if (! sess.module_cache)
-    sess.module_cache = new module_cache ();
-
   auto it = modules.begin();
   dwfl = setup_dwfl_user(it, modules.end(), debuginfo_needed, sess);
   if (debuginfo_needed && it != modules.end())
@@ -411,6 +441,10 @@ dwflpp::setup_user(const vector<string>& modules, bool debuginfo_needed)
 
   build_user_blacklist();
 }
+
+
+#endif
+
 
 template<> void
 dwflpp::iterate_over_modules<void>(int (*callback)(Dwfl_Module*,
