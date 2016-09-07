@@ -21,13 +21,18 @@
 #define HIST_LOG_BUCKET0 64
 
 /* statistical operations used with a global */
-#define STAT_OP_NONE      1 << 0
 #define STAT_OP_COUNT     1 << 1
 #define STAT_OP_SUM       1 << 2
 #define STAT_OP_MIN       1 << 3
 #define STAT_OP_MAX       1 << 4
 #define STAT_OP_AVG       1 << 5
 #define STAT_OP_VARIANCE  1 << 6
+
+/** other defines used for passing translator information to the runtime
+    values must not collide with the above statistical operations defines */
+#define KEY_MAPENTRIES    1 << 7
+#define KEY_STAT_WRAP     1 << 8
+#define KEY_HIST_TYPE     1 << 9
 
 /** histogram type */
 enum histtype { HIST_NONE, HIST_LOG, HIST_LINEAR };

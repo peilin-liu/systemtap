@@ -48,37 +48,67 @@
  * @param stop - An integer. The stopping value. Should be > start.
  * @param interval - An integer. The interval.
  */
-static Stat _stp_stat_init (int stat_ops, int type, ...)
+//static Stat _stp_stat_init (int stat_ops, int type, ...)
+static Stat _stp_stat_init (int first_arg, ...)
 {
 	int size, buckets=0, start=0, stop=0, interval=0, bit_shift=0;
+	int stat_ops=0, htype=0;
+	int arg = first_arg;
 	Stat st;
+	va_list ap;
 
-        va_list ap;
-        va_start (ap, type);
+	va_start (ap, first_arg);
+	do {
+		switch (arg) {
+		case KEY_HIST_TYPE:
+			htype = va_arg(ap, int);
+			if (htype == HIST_LINEAR) {
+				start = va_arg(ap, int);
+				stop = va_arg(ap, int);
+				interval = va_arg(ap, int);
 
-        if (type == HIST_NONE) {
-                bit_shift = va_arg(ap, int);
-        } else if (type == HIST_LOG) {
-                buckets = HIST_LOG_BUCKETS;
-        } else {
-                start = va_arg(ap, int);
-                stop = va_arg(ap, int);
-                interval = va_arg(ap, int);
-
-                buckets = _stp_stat_calc_buckets(stop, start, interval);
-                if (!buckets) {
-                        va_end (ap);
-                        return NULL;
-                }
-        }
-        va_end (ap);
+				buckets = _stp_stat_calc_buckets(stop, start, interval);
+				if (!buckets) {
+					va_end (ap);
+					return NULL;
+				}
+			}
+			if (htype == HIST_LOG)
+				buckets = HIST_LOG_BUCKETS;
+				break;
+		case STAT_OP_COUNT:
+			stat_ops |= STAT_OP_COUNT;
+			break;
+		case STAT_OP_SUM:
+			stat_ops |= STAT_OP_SUM;
+			break;
+		case STAT_OP_MIN:
+			stat_ops |= STAT_OP_MIN;
+			break;
+		case STAT_OP_MAX:
+			stat_ops |= STAT_OP_MAX;
+			break;
+		case STAT_OP_AVG:
+			stat_ops |= STAT_OP_AVG;
+			bit_shift = va_arg(ap, int);
+			break;
+		case STAT_OP_VARIANCE:
+			stat_ops |= STAT_OP_VARIANCE;
+			bit_shift = va_arg(ap, int);
+			break;
+		default:
+			_stp_warn ("Unknown argument %d\n", arg);
+		}
+		arg = va_arg(ap, int);
+	} while (arg);
+	va_end (ap);
 
 	size = buckets * sizeof(int64_t) + sizeof(stat_data);
 	st = _stp_stat_alloc (size);
 	if (st == NULL)
 		return NULL;
 
-	st->hist.type = type;
+	st->hist.type = htype;
 	st->hist.start = start;
 	st->hist.stop = stop;
 	st->hist.interval = interval;

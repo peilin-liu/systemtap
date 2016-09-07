@@ -431,6 +431,25 @@ public:
       return u->c_globalname(name);
   }
 
+  string stat_op_tokens() const
+  {
+    string result = "";
+    if (sd.stat_ops & STAT_OP_COUNT)
+      result += "STAT_OP_COUNT, ";
+    if (sd.stat_ops & STAT_OP_SUM)
+      result += "STAT_OP_SUM, ";
+    if (sd.stat_ops & STAT_OP_MIN)
+      result += "STAT_OP_MIN, ";
+    if (sd.stat_ops & STAT_OP_MAX)
+      result += "STAT_OP_MAX, ";
+    if (sd.stat_ops & STAT_OP_AVG)
+      result += "STAT_OP_AVG, " + lex_cast(sd.bit_shift) + ", ";
+    if (sd.stat_ops & STAT_OP_VARIANCE)
+      result += "STAT_OP_VARIANCE, " + lex_cast(sd.bit_shift) + ", ";
+
+    return result;
+  }
+
   string value() const
   {
     if (declaration_needed)
@@ -480,32 +499,32 @@ public:
           if (local)
             throw SEMANTIC_ERROR(_F("unsupported local stats init for %s", value().c_str()));
 
-          string prefix = "global_set(" + c_name() + ", _stp_stat_init (" + lex_cast(sd.stat_ops) + ", ";
+          string prefix = "global_set(" + c_name() + ", _stp_stat_init (" + stat_op_tokens();
           // Check for errors during allocation.
           string suffix = "if (" + value () + " == NULL) rc = -ENOMEM;";
 
           switch (sd.type)
             {
             case statistic_decl::none:
-              prefix += string("HIST_NONE")
-                + ", " + lex_cast(sd.bit_shift);
+              prefix += string("KEY_HIST_TYPE, HIST_NONE, ");
               break;
 
             case statistic_decl::linear:
-              prefix += string("HIST_LINEAR")
-                + ", " + lex_cast(sd.linear_low)
-                + ", " + lex_cast(sd.linear_high)
-                + ", " + lex_cast(sd.linear_step);
+              prefix += string("KEY_HIST_TYPE, HIST_LINEAR, ")
+                + lex_cast(sd.linear_low) + ", "
+                + lex_cast(sd.linear_high) + ", "
+                + lex_cast(sd.linear_step) + ", ";
               break;
 
             case statistic_decl::logarithmic:
-              prefix += string("HIST_LOG");
+              prefix += string("KEY_HIST_TYPE, HIST_LOG, ");
               break;
 
             default:
               throw SEMANTIC_ERROR(_F("unsupported stats type for %s", value().c_str()));
             }
 
+	  prefix += "NULL";
           prefix = prefix + ")); ";
           return string (prefix + suffix);
         }
@@ -703,6 +722,25 @@ struct mapvar
     return type() == pe_stats;
   }
 
+  string stat_op_tokens() const
+  {
+    string result = "";
+    if (sd.stat_ops & STAT_OP_COUNT)
+      result += "STAT_OP_COUNT, ";
+    if (sd.stat_ops & STAT_OP_SUM)
+      result += "STAT_OP_SUM, ";
+    if (sd.stat_ops & STAT_OP_MIN)
+      result += "STAT_OP_MIN, ";
+    if (sd.stat_ops & STAT_OP_MAX)
+      result += "STAT_OP_MAX, ";
+    if (sd.stat_ops & STAT_OP_AVG)
+      result += "STAT_OP_AVG, " + lex_cast(sd.bit_shift) + ", ";
+    if (sd.stat_ops & STAT_OP_VARIANCE)
+      result += "STAT_OP_VARIANCE, " + lex_cast(sd.bit_shift) + ", ";
+
+    return result;
+  }
+
   string calculate_aggregate() const
   {
     if (!is_parallel())
@@ -810,9 +848,9 @@ struct mapvar
 
     string prefix = "global_set(" + c_name() + ", ";
     prefix += function_keysym("new") + " ("
-      + (is_parallel() ? lex_cast(sd.stat_ops) + ", " : "")
-      + (maxsize > 0 ? lex_cast(maxsize) : "MAXMAPENTRIES")
-      + ((wrap == true) ? ", 1" : ", 0");
+      + (is_parallel() ? stat_op_tokens() : "")
+      + "KEY_MAPENTRIES, " + (maxsize > 0 ? lex_cast(maxsize) : "MAXMAPENTRIES") + ", "
+      + ((wrap == true) ? "KEY_STAT_WRAP, " : "");
 
     // See also var::init().
 
@@ -824,23 +862,24 @@ struct mapvar
 	switch (sdecl().type)
 	  {
 	  case statistic_decl::none:
-	    prefix = prefix + ", HIST_NONE"
-                + ", " + lex_cast(sd.bit_shift);
+	    prefix = prefix + "KEY_HIST_TYPE, HIST_NONE, ";
 	    break;
 
 	  case statistic_decl::linear:
 	    // FIXME: check for "reasonable" values in linear stats
-	    prefix = prefix + ", HIST_LINEAR"
-	      + ", " + lex_cast(sdecl().linear_low)
-	      + ", " + lex_cast(sdecl().linear_high)
-	      + ", " + lex_cast(sdecl().linear_step);
+	    prefix = prefix + "KEY_HIST_TYPE, HIST_LINEAR, "
+	      + lex_cast(sdecl().linear_low) + ", "
+	      + lex_cast(sdecl().linear_high) + ", "
+	      + lex_cast(sdecl().linear_step) + ", ";
 	    break;
 
 	  case statistic_decl::logarithmic:
-	    prefix = prefix + ", HIST_LOG";
+	    prefix = prefix + "KEY_HIST_TYPE, HIST_LOG, ";
 	    break;
 	  }
       }
+
+    prefix += "NULL";
 
     prefix = prefix + ")); ";
     return (prefix + suffix);
