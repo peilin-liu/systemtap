@@ -1296,17 +1296,17 @@ struct stat_decl_collector
     // used with given global/local variable.  This information later helps
     // to optimize the runtime behaviour.
 
-    if (e->tok->content == "@count")
+    if (e->ctype == sc_count)
       stat_op = STAT_OP_COUNT;
-    else if (e->tok->content == "@sum")
+    else if (e->ctype == sc_sum)
       stat_op = STAT_OP_SUM;
-    else if (e->tok->content == "@min")
+    else if (e->ctype == sc_min)
       stat_op = STAT_OP_MIN;
-    else if (e->tok->content == "@max")
+    else if (e->ctype == sc_max)
       stat_op = STAT_OP_MAX;
-    else if (e->tok->content == "@avg")
+    else if (e->ctype == sc_average)
       stat_op = STAT_OP_AVG;
-    else if (e->tok->content == "@variance")
+    else if (e->ctype == sc_variance)
       stat_op = STAT_OP_VARIANCE;
 
     new_stat.bit_shift = bit_shift;
@@ -1316,6 +1316,8 @@ struct stat_decl_collector
     if (i == session.stat_decls.end())
       session.stat_decls[sym->name] = new_stat;
     else
+      i->second.stat_ops |= stat_op;
+
       // The bit_shift N applies to both @variance and @avg for given stat S
       // (i.e. call to _stp_stat_init()).  These two operators are optionally
       // parametrizeable (@variance(S[, N]), @avg(S[, N)), so that the bit_shift
@@ -1342,7 +1344,6 @@ struct stat_decl_collector
       else
         {
           i->second.bit_shift = bit_shift;
-          i->second.stat_ops |= stat_op;
 	}
   }
 
