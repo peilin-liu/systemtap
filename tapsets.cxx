@@ -492,7 +492,7 @@ symbol_table
   func_info *get_func_containing_address(Dwarf_Addr addr);
   func_info *get_first_func();
 
-  symbol_table(module_info *mi) : mod_info(mi), opd_section(SHN_UNDEF) {}
+  symbol_table(module_info *mi) : mod_info(mi), opd_section(SHN_UNDEF) { }
   ~symbol_table();
 };
 
@@ -7576,9 +7576,7 @@ suggest_marks(systemtap_session& sess,
 
   // PR18577: There isn't any point in generating a suggestion list if
   // we're not going to display it.
-  if ((sess.dump_mode == systemtap_session::dump_matched_probes
-       || sess.dump_mode == systemtap_session::dump_matched_probes_vars)
-      && sess.verbose < 2)
+  if (sess.dump_mode != systemtap_session::dump_none)
     return "";
 
   set<string> marks;
@@ -7641,9 +7639,7 @@ suggest_plt_functions(systemtap_session& sess,
 
   // PR18577: There isn't any point in generating a suggestion list if
   // we're not going to display it.
-  if ((sess.dump_mode == systemtap_session::dump_matched_probes
-       || sess.dump_mode == systemtap_session::dump_matched_probes_vars)
-      && sess.verbose < 2)
+  if (sess.dump_mode != systemtap_session::dump_none)
     return "";
 
   set<interned_string> funcs;
@@ -7688,9 +7684,7 @@ suggest_dwarf_functions(systemtap_session& sess,
 
   // PR18577: There isn't any point in generating a suggestion list if
   // we're not going to display it.
-  if ((sess.dump_mode == systemtap_session::dump_matched_probes
-       || sess.dump_mode == systemtap_session::dump_matched_probes_vars)
-      && sess.verbose < 2)
+  if (sess.dump_mode != systemtap_session::dump_none)
     return "";
 
   // We must first aggregate all the functions from the cache
@@ -8377,8 +8371,7 @@ dwarf_builder::build(systemtap_session & sess,
   interned_string func;
   if (results_pre == results_post && !location->from_globby_comp(TOK_FUNCTION)
       && get_param(filled_parameters, TOK_FUNCTION, func)
-      && !func.empty()
-      && (sess.dump_mode == systemtap_session::dump_none))
+      && !func.empty())
     {
       string sugs = suggest_dwarf_functions(sess, modules_seen, func);
       modules_seen.clear();
@@ -8390,8 +8383,7 @@ dwarf_builder::build(systemtap_session & sess,
     }
   else if (results_pre == results_post && !location->from_globby_comp(TOK_PLT)
            && get_param(filled_parameters, TOK_PLT, func)
-           && !func.empty()
-           && (sess.dump_mode == systemtap_session::dump_none))
+           && !func.empty())
     {
       string sugs = suggest_plt_functions(sess, modules_seen, func);
       modules_seen.clear();
@@ -9770,9 +9762,7 @@ suggest_kernel_functions(const systemtap_session& session, interned_string funct
 
   // PR18577: There isn't any point in generating a suggestion list if
   // we're not going to display it.
-  if ((session.dump_mode == systemtap_session::dump_matched_probes
-       || session.dump_mode == systemtap_session::dump_matched_probes_vars)
-      && session.verbose < 2)
+  if (session.dump_mode != systemtap_session::dump_none)
     return "";
 
   if (session.verbose > 2)

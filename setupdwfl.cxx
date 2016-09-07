@@ -77,14 +77,16 @@ using namespace std;
 // used. When offline_search_modname is not NULL then
 // offline_search_names is ignored.
 static const char *offline_search_modname;
-static set<string> offline_search_names;
 static unsigned offline_modules_found;
 
+
+#if 0
 // Determines whether or not we will make setup_dwfl_report_kernel_p
 // report true for all module dependencies. This is necessary for
 // correctly resolving some dwarf constructs that relocate against
 // symbols in vmlinux and/or other modules they depend on. See PR10678.
 static const bool setup_all_deps = true;
+#endif
 
 // Where to find the kernel (and the Modules.dep file).  Setup in
 // setup_dwfl_kernel(), used by dwfl_linux_kernel_report_offline() and
@@ -132,11 +134,15 @@ modname_from_path(const string &path)
   return name;
 }
 
+
+#if 0
+
 static bool offline_search_names_find(const string &modpath) {
 	if (offline_search_names.find(modpath) != offline_search_names.end()) return 1;
 	string modname = modname_from_path (modpath);
 	return offline_search_names.find(modname) != offline_search_names.end();
 }
+
 
 // Try to parse modules.dep file,
 // Simple format: module path (either full or relative), colon,
@@ -237,6 +243,8 @@ setup_mod_deps()
   offline_search_modname = NULL;
 }
 
+#endif
+
 
 // Set up our offline search for kernel modules.  We don't want the
 // offline search iteration to do a complete search of the kernel
@@ -258,23 +266,6 @@ setup_dwfl_report_kernel_p(const char* modname, const char* filename)
   if (filename == NULL)
     return 0;
 
-  // Check kernel first since it is often the only thing needed,
-  // then we never have to parse and setup the module deps map.
-  // It will be reported as the very first thing.
-  if (setup_all_deps && ! strcmp (modname, "kernel"))
-    {
-      if ((offline_search_modname != NULL
-	   && ! strcmp (offline_search_modname, "kernel"))
-	  || (offline_search_names.size() == 1
-	      && *offline_search_names.begin() == "kernel"))
-	;
-      else
-	setup_mod_deps();
-
-      offline_modules_found++;
-      return 1;
-    }
-
   // If offline_search_modname is setup use it (either as regexp or
   // explicit module/kernel name) and ignore offline_search_names.
   // Otherwise use offline_search_names exclusively.
@@ -287,8 +278,12 @@ setup_dwfl_report_kernel_p(const char* modname, const char* filename)
 	  // In the wildcard case, we don't short-circuit (return -1)
 	  // analogously to dwflpp::module_name_final_match().
 	  if (match_p)
-	    offline_modules_found++;
-	  return match_p;
+            {
+              offline_modules_found++;
+              return 1;
+            }
+          else
+            return 0;
 	}
       else
 	{ /* non-wildcard mode, reject mismatching module names */
@@ -300,18 +295,6 @@ setup_dwfl_report_kernel_p(const char* modname, const char* filename)
 	      offline_modules_found++;
 	      return 1;
 	    }
-	}
-    }
-  else
-    { /* find all in set mode, reject mismatching module names */
-      if (!offline_search_names_find(filename))
-	return 0;
-      else
-	{
-	  offline_modules_found++;
-	  if (offline_search_names.size() == offline_modules_found)
-            { }
-	  return 1;
 	}
     }
 }
