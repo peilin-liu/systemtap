@@ -443,7 +443,7 @@ public:
     if (sd.stat_ops & STAT_OP_MAX)
       result += "STAT_OP_MAX, ";
     if (sd.stat_ops & STAT_OP_AVG)
-      result += "STAT_OP_AVG, " + lex_cast(sd.bit_shift) + ", ";
+      result += "STAT_OP_AVG, ";
     if (sd.stat_ops & STAT_OP_VARIANCE)
       result += "STAT_OP_VARIANCE, " + lex_cast(sd.bit_shift) + ", ";
 
@@ -734,7 +734,7 @@ struct mapvar
     if (sd.stat_ops & STAT_OP_MAX)
       result += "STAT_OP_MAX, ";
     if (sd.stat_ops & STAT_OP_AVG)
-      result += "STAT_OP_AVG, " + lex_cast(sd.bit_shift) + ", ";
+      result += "STAT_OP_AVG, ";
     if (sd.stat_ops & STAT_OP_VARIANCE)
       result += "STAT_OP_VARIANCE, " + lex_cast(sd.bit_shift) + ", ";
 

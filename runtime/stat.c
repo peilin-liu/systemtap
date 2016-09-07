@@ -90,7 +90,6 @@ static Stat _stp_stat_init (int first_arg, ...)
 			break;
 		case STAT_OP_AVG:
 			stat_ops |= STAT_OP_AVG;
-			bit_shift = va_arg(ap, int);
 			break;
 		case STAT_OP_VARIANCE:
 			stat_ops |= STAT_OP_VARIANCE;

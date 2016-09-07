@@ -3821,7 +3821,7 @@ expression* parser::parse_symbol ()
 	{
 	  stat_op *sop = new stat_op;
 	  if (name == "@avg")
-	    sop->ctype = sc_average, max_params = 1;
+	    sop->ctype = sc_average;
 	  else if (name == "@variance")
 	    sop->ctype = sc_variance, max_params = 1;
 	  else if (name == "@count")

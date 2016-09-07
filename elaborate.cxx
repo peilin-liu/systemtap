@@ -1318,18 +1318,14 @@ struct stat_decl_collector
     else
       i->second.stat_ops |= stat_op;
 
-      // The bit_shift N applies to both @variance and @avg for given stat S
-      // (i.e. call to _stp_stat_init()).  These two operators are optionally
-      // parametrizeable (@variance(S[, N]), @avg(S[, N)), so that the bit_shift
-      // can optionally be set for them.  The default is N=0.  However, other
-      // stat operators, such as @min, or @max, are not parametrizeable in this
-      // sense, and they shouldn't affect the bit_shift for given stat.
+      // The @variance operator for given stat S (i.e. call to _stp_stat_init())
+      // is optionally parametrizeable (@variance(S[, N]), where N is a bit shift
+      // (the default is N=0).  The bit_shift helps to improve precision if integer
+      // arithemtic, namely divisions ().
       //
-      // Once the script writer starts using the bit_shift (i.e. defines it
-      // explicitly for the first time), he needs to continue specifying it
-      // consistently across all of his @variance and @avg uses, otherwise the
-      // "multiple bit shifts declared on ..." semantic error pops up.
-      if ((e->tok->content != "@variance") && (e->tok->content != "@avg"))
+      // Ref: https://en.wikipedia.org/wiki/Scale_factor_%28computer_science%29
+      //
+      if (e->tok->content != "@variance")
         return;
       else if ((i->second.bit_shift != 0) && (i->second.bit_shift != bit_shift))
         {
