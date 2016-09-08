@@ -38,7 +38,7 @@
 /** Initialize a Stat.
  * Call this during probe initialization to create a Stat.
  *
- * @param type HIST_NONE, HIST_LOG, or HIST_LINEAR
+ * @param type (KEY_HIST_TYPE and associated parameters) 
  *
  * For HIST_LOG, the following additional parametrs are required:
  * @param buckets - An integer specifying the number of buckets.
@@ -47,8 +47,9 @@
  * @param start - An integer. The start of the histogram.
  * @param stop - An integer. The stopping value. Should be > start.
  * @param interval - An integer. The interval.
+ *
+ * @param stat_ops (STAT_OP_* and associated parameter bit_shift for STAT_OP_VARIANCE)
  */
-//static Stat _stp_stat_init (int stat_ops, int type, ...)
 static Stat _stp_stat_init (int first_arg, ...)
 {
 	int size, buckets=0, start=0, stop=0, interval=0, bit_shift=0;

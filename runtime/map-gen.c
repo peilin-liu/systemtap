@@ -701,7 +701,11 @@ static uint32_t KEYSYM(hash) (ALLKEYSD(key)) /* NB: unscaled! */
 
 
 #if VALUE_TYPE == INT64 || VALUE_TYPE == STRING
-//static MAP KEYSYM(_stp_map_new) (unsigned max_entries, int wrap)
+/*
+ * _stp_map_new* ()
+ * @param max_entries (KEY_MAPENTRIES and associated parameter)
+ * @param wrap (KEY_STAT_WRAP)
+ */
 static MAP KEYSYM(_stp_map_new) (int first_arg, ...)
 {
 	int max_entries=0, wrap=0;
@@ -734,9 +738,10 @@ static MAP KEYSYM(_stp_map_new) (int first_arg, ...)
 
 /*
  * _stp_map_new_key1_key2...val (num, wrap, HIST_LINEAR, start, end, interval)
- * _stp_map_new_key1_key2...val (num, wrap, HIST_LOG)
+ * @param num (KEY_MAPENTRIES and associated parameter)
+ * @param wrap (KEY_STAT_WRAP)
+ * @param htype (KEY_HIST_TYPE and associated parameters)
  */ 
-//static MAP KEYSYM(_stp_map_new) (unsigned max_entries, int wrap, int htype, ...)
 static MAP KEYSYM(_stp_map_new) (int first_arg, ...)
 {
 

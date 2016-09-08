@@ -145,11 +145,13 @@ static PMAP KEYSYM(_stp_pmap_new) (unsigned max_entries, int wrap)
 }
 #else
 /*
- * _stp_pmap_new_key1_key2...val (num, wrap, HIST_LINEAR, start, end, interval) 
- * _stp_pmap_new_key1_key2...val (num, wrap, HIST_LOG)
+ * _stp_pmap_new* () 
+ * @param max_entries (KEY_MAPENTRIES and associated parameter)
+ * @param wrap (KEY_STAT_WRAP)
+ * @param htype (KEY_HIST_TYPE and associated parameters)
+ * @param stat_ops (STAT_OP_* and associated parameter for STAT_OP_VARIANCE))
  */
 static PMAP
-//KEYSYM(_stp_pmap_new) (int stat_ops, unsigned max_entries, int wrap, int htype, ...)
 KEYSYM(_stp_pmap_new) (int first_arg, ...)
 {
 	int start=0, stop=0, interval=0, bit_shift=0;
