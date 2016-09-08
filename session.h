@@ -94,9 +94,7 @@ struct statistic_decl
     return type == other.type
       && linear_low == other.linear_low
       && linear_high == other.linear_high
-      && linear_step == other.linear_step
-      && bit_shift == other.bit_shift
-      && stat_ops == other.stat_ops;
+      && linear_step == other.linear_step;
   }
 };
 
