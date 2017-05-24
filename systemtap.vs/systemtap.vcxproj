@@ -1,0 +1,1058 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A7BEDD07-0FFA-419A-824A-4BEC8E3B90A9}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeIncludeSearchPath>$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7\x86_64-redhat-linux;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7\backward;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0002\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0001\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0000\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(ProjectDir)\gcc_Debug.h;$(VISUALGDB_DIR)\gcc_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakePreprocessorDefinitions>__VisualGDB_CFG_Debug;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /rebuild "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeReBuildCommandLine>
+    <NMakeOutput>$(ProjectDir)systemtap-Debug.vgdbsettings</NMakeOutput>
+    <IncludePath />
+    <ReferencePath />
+    <LibraryPath />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeIncludeSearchPath>$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7\x86_64-redhat-linux;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7\backward;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0002\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0001\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0000\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(ProjectDir)\gcc_Debug.h;$(VISUALGDB_DIR)\gcc_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakePreprocessorDefinitions>__VisualGDB_CFG_Debug;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /rebuild "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeReBuildCommandLine>
+    <NMakeOutput>$(ProjectDir)systemtap-Debug.vgdbsettings</NMakeOutput>
+    <IncludePath />
+    <ReferencePath />
+    <LibraryPath />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeIncludeSearchPath>$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7\x86_64-redhat-linux;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7\backward;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0002\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0001\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0000\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(ProjectDir)\gcc_Release.h;$(VISUALGDB_DIR)\gcc_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakePreprocessorDefinitions>__VisualGDB_CFG_Release;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /rebuild "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeReBuildCommandLine>
+    <NMakeOutput>$(ProjectDir)systemtap-Release.vgdbsettings</NMakeOutput>
+    <IncludePath />
+    <ReferencePath />
+    <LibraryPath />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeIncludeSearchPath>$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7\x86_64-redhat-linux;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0008\4.4.7\backward;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0002\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0001\include;$(LOCALAPPDATA)\VisualGDB\RemoteSourceCache\192.168.4.244\0000\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(ProjectDir)\gcc_Release.h;$(VISUALGDB_DIR)\gcc_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakePreprocessorDefinitions>__VisualGDB_CFG_Release;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /rebuild "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeReBuildCommandLine>
+    <NMakeOutput>$(ProjectDir)systemtap-Release.vgdbsettings</NMakeOutput>
+    <IncludePath />
+    <ReferencePath />
+    <LibraryPath />
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="..\util.cxx" />
+    <ClCompile Include="..\dwflpp.cxx" />
+    <ClCompile Include="..\tapset-itrace.cxx" />
+    <ClCompile Include="..\tapset-method.cxx" />
+    <ClCompile Include="..\staptree.cxx" />
+    <ClCompile Include="..\stringtable.cxx" />
+    <ClCompile Include="..\buildrun.cxx" />
+    <ClCompile Include="..\tapset-netfilter.cxx" />
+    <ClCompile Include="..\nsscommon.cxx" />
+    <ClCompile Include="..\tapset-utrace.cxx" />
+    <ClCompile Include="..\tapset-mark.cxx" />
+    <ClCompile Include="..\tapset-timers.cxx" />
+    <ClCompile Include="..\dwarf_wrappers.cxx" />
+    <ClCompile Include="..\stap-serverd.cxx" />
+    <ClCompile Include="..\cache.cxx" />
+    <ClCompile Include="..\stapregex.cxx" />
+    <ClCompile Include="..\loc2c.c" />
+    <ClCompile Include="..\tapset-been.cxx" />
+    <ClCompile Include="..\tapset-python.cxx" />
+    <ClCompile Include="..\elaborate.cxx" />
+    <ClCompile Include="..\stap-sign-module.cxx" />
+    <ClCompile Include="..\mdfour.c" />
+    <ClCompile Include="..\interactive.cxx" />
+    <ClCompile Include="..\parse.cxx" />
+    <ClCompile Include="..\coveragedb.cxx" />
+    <ClCompile Include="..\translator-output.cxx" />
+    <ClCompile Include="..\cscommon.cxx" />
+    <ClCompile Include="..\staplog.c" />
+    <ClCompile Include="..\task_finder.cxx" />
+    <ClCompile Include="..\remote.cxx" />
+    <ClCompile Include="..\tapset-dynprobe.cxx" />
+    <ClCompile Include="..\privilege.cxx" />
+    <ClCompile Include="..\stapregex-tree.cxx" />
+    <ClCompile Include="..\hash.cxx" />
+    <ClCompile Include="..\stap-authorize-cert.cxx" />
+    <ClCompile Include="..\stapregex-parse.cxx" />
+    <ClCompile Include="..\csclient.cxx" />
+    <ClCompile Include="..\translate.cxx" />
+    <ClCompile Include="..\main.cxx" />
+    <ClCompile Include="..\tapset-perfmon.cxx" />
+    <ClCompile Include="..\loc2c-test.c" />
+    <ClCompile Include="..\rpm_finder.cxx" />
+    <ClCompile Include="..\stap-gen-cert.cxx" />
+    <ClCompile Include="..\stapvirt.c" />
+    <ClCompile Include="..\tapsets.cxx" />
+    <ClCompile Include="..\session.cxx" />
+    <ClCompile Include="..\stapregex-dfa.cxx" />
+    <ClCompile Include="..\cmdline.cxx" />
+    <ClCompile Include="..\setupdwfl.cxx" />
+    <ClCompile Include="..\tapset-procfs.cxx" />
+    <ClCompile Include="..\scripts\probe_perf\bench.c" />
+    <ClCompile Include="..\scripts\kprobes_test\kprobe_module.c" />
+    <ClCompile Include="..\httpd\server.cxx" />
+    <ClCompile Include="..\httpd\main.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.pass1-4\debugtypes.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.context\uprobe_stmt_num.c" />
+    <ClCompile Include="..\testsuite\systemtap.context\fib.c" />
+    <ClCompile Include="..\testsuite\systemtap.context\systemtap_test_module2.c" />
+    <ClCompile Include="..\testsuite\systemtap.context\uprobe_uaddr_mark.c" />
+    <ClCompile Include="..\testsuite\systemtap.context\usymfileline.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.context\usymbols_lib.c" />
+    <ClCompile Include="..\testsuite\systemtap.context\systemtap_test_module1.c" />
+    <ClCompile Include="..\testsuite\systemtap.context\usymbols.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\callee.reloc.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\unresolved-struct-typedef.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\at_var_cu_2.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\sdt_misc.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\utrace_syscall_args.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\rep_ret.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\at_var_lvalue.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\callee.inlined.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\task_fd_lookup.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\global_var_speed.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\const_value.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\process_resume.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\ptridx.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\sdt_va_args.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\proc_thread_exec.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\set_user.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\at_var.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\func_alias.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\at_var_cu_3.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\stmt_inlines.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\callee.extern.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\towers.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\cast-user.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\process_by_cmd.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\global_var_distance.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\at_var_timer_profile.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\implicitptr.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\const_value_func.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\stmt_rel_user.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\externalvar_lib.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\callee.multicalls.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\buildid.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\bz10078.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\callee.extern.2.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\at_var_cu_1.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\callee.reloc.lib.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\jennie.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\proc_fork_exec.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\plt.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\stap_hwbkpt_kmod.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\inherit.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.base\listing_mode.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\bz5274.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\hash_add_buildid2.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\multisym_baz.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\global_var_main.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\vma_vdso.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\externalvar.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\auto_path.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\process_by_pid.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\cxxclass.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.base\utf_user.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\callee.simple.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\utf_pretty.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.base\statement.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\multisym_main.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\cast-scope.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.base\proc_exec.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\minidebug.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\bz6850.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\sdt_types.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\gtod.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\utf_user_trunc.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\utrace_p5_multi.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\setjmp.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\inlinedvars.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\sdt.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\cu-decl-2.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\proc_by_pid.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\at_var_void_stmt.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\vta-test.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\sdt_casm.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\partial-class-type-main.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.base\partial-class-type-heap.cxx" />
+    <ClCompile Include="..\testsuite\systemtap.base\cu-decl-1.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\stap_kmodule.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\pthread_stacks.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\sdt_varname.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\bad-code.c" />
+    <ClCompile Include="..\testsuite\systemtap.base\hash_add_buildid1.c" />
+    <ClCompile Include="..\testsuite\systemtap.printf\print_user_buffer.c" />
+    <ClCompile Include="..\testsuite\systemtap.printf\memory1_module.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\unlink.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\tee.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\vforkwait.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\fxattr.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\bpf.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\access.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\setns.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\ioctl.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getgroups.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getrusage.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\kexec_load.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\nice.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sched_getscheduler.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\dir.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\select.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\signalfd.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sched_attr.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\modify_ldt.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\shmat.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\mmap.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\memfd_create.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\forkwait.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getdents.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\stat.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\shmget.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\setgroups.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\flock.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\recvmmsg.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sched_getaffinity.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\exit.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\ioperm.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\kill.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\robust_list.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\setitimer.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\arch_prctl.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\fallocate.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sched_setscheduler.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sync.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\setsockopt.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\lseek.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\pwritev.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sysctl.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\uselib.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sysfs.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getsockname.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sched_setaffinity.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\exit_group.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\perf_event.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\semctl.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getpriority.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\acct.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\fadvise64.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\syslog.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\trunc.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\eventfd.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\setpriority.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\restart_syscall.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\xattr.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\execveat.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\setsid.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\listen.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\hostname.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\inotify.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\mempolicy.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\remap_file_pages.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\userfaultfd.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\timerfd.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\process_vm.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\syncfs.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\adjtimex.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\mq.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\times.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\preadv.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\membarrier.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\handle_at.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\set_tid_address.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getrlimit.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\send.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\connect.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\ptrace.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\madvise.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sync_file_range.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\copy_file_range.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\pread.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sendmmsg.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\thread_area.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\swap.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\fanotify.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getsockopt.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\signal.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\writev.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\personality.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getrandom.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\shutdown.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\timer.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\clock.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\wait4.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\readwrite.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getpeername.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\socketpair.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\umask.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\domainname.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\uid.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getcpu.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\lxattr.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\recvfrom.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\dup.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\prlimit.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\reboot.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sendfile.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\pgid.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\quotactl.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\futimes.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\aio.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\nfsservctl.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sysinfo.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sched_rr_get_interval.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\prctl.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\unshare.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\accept.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\pwrite.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\clone.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\readahead.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\link.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\mincore.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sched.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\net1.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\bind.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\openclose.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\readv.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\brk.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\dcookie.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\rt_signal.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\capability.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\statfs.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\readdir.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\poll.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sigaltstack.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\chmod.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\rename.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getitimer.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\futex.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\mount.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\keyctl.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\vhangup.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\pipe.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\recvmsg.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\seccomp.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\kcmp.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\numa.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\ioprio.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\execve.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\chroot.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\module.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\semget.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sendto.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\pivot_root.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sigmask.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\mknod.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\getsid.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\uname.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\sendmsg.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\wait.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\alarm.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\itimer.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\semop.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\recv.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\msg_queue.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\accept4.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\uid16.c" />
+    <ClCompile Include="..\testsuite\systemtap.syscall\socket.c" />
+    <ClCompile Include="..\testsuite\systemtap.unprivileged\loop.c" />
+    <ClCompile Include="..\testsuite\systemtap.unprivileged\libloop.c" />
+    <ClCompile Include="..\testsuite\systemtap.exelib\pthreadprobes.c" />
+    <ClCompile Include="..\testsuite\systemtap.exelib\uprobes_exe.c" />
+    <ClCompile Include="..\testsuite\systemtap.exelib\uprobes_lib.c" />
+    <ClCompile Include="..\testsuite\systemtap.clone\probe_by_pid.c" />
+    <ClCompile Include="..\testsuite\systemtap.clone\dtrace_child.c" />
+    <ClCompile Include="..\testsuite\systemtap.clone\dtrace_fork_parent.c" />
+    <ClCompile Include="..\testsuite\systemtap.clone\main_quiesce.c" />
+    <ClCompile Include="..\testsuite\systemtap.clone\dtrace_vfork_parent.c" />
+    <ClCompile Include="..\testsuite\systemtap.clone\dtrace_clone.c" />
+    <ClCompile Include="..\testsuite\systemtap.speculate\speculate.c" />
+    <ClCompile Include="..\java\HelperSDT.c" />
+    <ClCompile Include="..\staprun\stapsh.c" />
+    <ClCompile Include="..\staprun\strfloctime.c" />
+    <ClCompile Include="..\staprun\staprun_funcs.c" />
+    <ClCompile Include="..\staprun\relay.c" />
+    <ClCompile Include="..\staprun\relay_old.c" />
+    <ClCompile Include="..\staprun\ctl.c" />
+    <ClCompile Include="..\staprun\monitor.c" />
+    <ClCompile Include="..\staprun\mainloop.c" />
+    <ClCompile Include="..\staprun\modverify.c" />
+    <ClCompile Include="..\staprun\stap_merge.c" />
+    <ClCompile Include="..\staprun\common.c" />
+    <ClCompile Include="..\staprun\staprun.c" />
+    <ClCompile Include="..\staprun\stapio.c" />
+    <ClCompile Include="..\runtime\regs.c" />
+    <ClCompile Include="..\runtime\stack.c" />
+    <ClCompile Include="..\runtime\stat.c" />
+    <ClCompile Include="..\runtime\addr-map.c" />
+    <ClCompile Include="..\runtime\print_flush.c" />
+    <ClCompile Include="..\runtime\stp_task_work.c" />
+    <ClCompile Include="..\runtime\map-stat.c" />
+    <ClCompile Include="..\runtime\arith.c" />
+    <ClCompile Include="..\runtime\map.c" />
+    <ClCompile Include="..\runtime\task_finder_vma.c" />
+    <ClCompile Include="..\runtime\copy.c" />
+    <ClCompile Include="..\runtime\stack-s390.c" />
+    <ClCompile Include="..\runtime\print.c" />
+    <ClCompile Include="..\runtime\procfs-probes.c" />
+    <ClCompile Include="..\runtime\vsprintf.c" />
+    <ClCompile Include="..\runtime\stack-arm.c" />
+    <ClCompile Include="..\runtime\stack-mips.c" />
+    <ClCompile Include="..\runtime\timer.c" />
+    <ClCompile Include="..\runtime\unwind.c" />
+    <ClCompile Include="..\runtime\io.c" />
+    <ClCompile Include="..\runtime\mempool.c" />
+    <ClCompile Include="..\runtime\stp_string.c" />
+    <ClCompile Include="..\runtime\sym.c" />
+    <ClCompile Include="..\runtime\procfs.c" />
+    <ClCompile Include="..\runtime\map-gen.c" />
+    <ClCompile Include="..\runtime\time.c" />
+    <ClCompile Include="..\runtime\vma.c" />
+    <ClCompile Include="..\runtime\stp_utrace.c" />
+    <ClCompile Include="..\runtime\stat-common.c" />
+    <ClCompile Include="..\runtime\pmap-gen.c" />
+    <ClCompile Include="..\runtime\stack-ia64.c" />
+    <ClCompile Include="..\runtime\alloc.c" />
+    <ClCompile Include="..\runtime\dyninst\regs.c" />
+    <ClCompile Include="..\runtime\dyninst\uprobes-regs.c" />
+    <ClCompile Include="..\runtime\dyninst\addr-map.c" />
+    <ClCompile Include="..\runtime\dyninst\arith.c" />
+    <ClCompile Include="..\runtime\dyninst\copy.c" />
+    <ClCompile Include="..\runtime\dyninst\print.c" />
+    <ClCompile Include="..\runtime\dyninst\transport.c" />
+    <ClCompile Include="..\runtime\dyninst\timer.c" />
+    <ClCompile Include="..\runtime\dyninst\unwind.c" />
+    <ClCompile Include="..\runtime\dyninst\task_finder.c" />
+    <ClCompile Include="..\runtime\dyninst\perf.c" />
+    <ClCompile Include="..\runtime\dyninst\io.c" />
+    <ClCompile Include="..\runtime\dyninst\session_attributes.c" />
+    <ClCompile Include="..\runtime\dyninst\shm.c" />
+    <ClCompile Include="..\runtime\dyninst\sym.c" />
+    <ClCompile Include="..\runtime\dyninst\uprobes.c" />
+    <ClCompile Include="..\runtime\dyninst\alloc.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-alloc-percpu-align.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-utrace-via-tracepoints.c" />
+    <ClCompile Include="..\runtime\linux\task_finder_stubs.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-vm-area-pte.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-inode-uretprobes.c" />
+    <ClCompile Include="..\runtime\linux\regs.c" />
+    <ClCompile Include="..\runtime\linux\task_finder2.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-save-stack-trace.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-asm-syscall.c" />
+    <ClCompile Include="..\runtime\linux\stp_tracepoint.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-smpcall-5args.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-task_work-struct.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-uprobe-get-pc.c" />
+    <ClCompile Include="..\runtime\linux\kprobes.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-mm-context-vdso-base.c" />
+    <ClCompile Include="..\runtime\linux\addr-map.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-relay-umode_t.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-hrtimer-getset-expires.c" />
+    <ClCompile Include="..\runtime\linux\task_finder_map.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-perf-structpid.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-ring_buffer_lost_events.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-hlist-4args.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-netfilter.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-uaccess.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-x86-fs.c" />
+    <ClCompile Include="..\runtime\linux\arith.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-save-stack-trace-no-bp.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-timerfd.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-nameidata.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-compat_sigaction.c" />
+    <ClCompile Include="..\runtime\linux\copy.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-kprobe-symbol-name.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-mm-context-vdso.c" />
+    <ClCompile Include="..\runtime\linux\uprobes-common.c" />
+    <ClCompile Include="..\runtime\linux\print.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-kallsyms-on-each-symbol.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-dpath-path.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-old-inode-uprobes.c" />
+    <ClCompile Include="..\runtime\linux\perf_event_counter_context.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-ring_buffer_read_prepare.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-mod_kallsyms.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-netfilter-4_1.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-sched-mm.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-ktime-get-real.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-regset.c" />
+    <ClCompile Include="..\runtime\linux\itrace.c" />
+    <ClCompile Include="..\runtime\linux\timer.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-task-uid.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-smpcall-4args.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-x86-xfs.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-stacktrace_ops-int-address.c" />
+    <ClCompile Include="..\runtime\linux\task_finder.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-constant-tsc.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-walk-stack.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-get_user_pages_remote-flags_locked.c" />
+    <ClCompile Include="..\runtime\linux\uprobes-inode.c" />
+    <ClCompile Include="..\runtime\linux\perf.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-x86-gs.c" />
+    <ClCompile Include="..\runtime\linux\io.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-generated-compile.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-sched-task_stack.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-fs_supers-hlist.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-grsecurity.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-inode-rwsem.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-inode-private.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-oneachcpu-retry.c" />
+    <ClCompile Include="..\runtime\linux\regs-ia64.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-netfilter-313b.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-relay_buf-per_cpu_ptr.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-x86-uniregs.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-from_kuid_munged.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-blk-types.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-module-sect-attrs.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-uapi-linux-sched-types.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-hrtimer-rel.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-module_layout.c" />
+    <ClCompile Include="..\runtime\linux\perf_probe_handler_nmi.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-netfilter-4_4.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-ring_buffer-flags.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-trace-printk.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-utrace-regset.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-real-parent.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-procfs-owner.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-tracepoint-strings.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-uidgid.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-pagefault_disable.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-hw_breakpoint_context.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-get_user_pages_remote-flags.c" />
+    <ClCompile Include="..\runtime\linux\alloc.c" />
+    <ClCompile Include="..\runtime\linux\autoconf-stacktrace_ops-warning.c" />
+    <ClCompile Include="..\runtime\linux\uprobes2\uprobes_arch.c" />
+    <ClCompile Include="..\runtime\linux\uprobes2\uprobes_arm.c" />
+    <ClCompile Include="..\runtime\linux\uprobes2\uprobes_x86.c" />
+    <ClCompile Include="..\runtime\linux\uprobes2\uprobes.c" />
+    <ClCompile Include="..\runtime\linux\uprobes\uprobes_x86_64.c" />
+    <ClCompile Include="..\runtime\linux\uprobes\uprobes_arch.c" />
+    <ClCompile Include="..\runtime\linux\uprobes\uprobes_x86.c" />
+    <ClCompile Include="..\runtime\linux\uprobes\uprobes_i386.c" />
+    <ClCompile Include="..\runtime\linux\uprobes\uprobes_s390.c" />
+    <ClCompile Include="..\runtime\linux\uprobes\uprobes_ppc.c" />
+    <ClCompile Include="..\runtime\linux\uprobes\uprobes.c" />
+    <ClCompile Include="..\runtime\docs\examples\map.c" />
+    <ClCompile Include="..\runtime\docs\examples\foreach.c" />
+    <ClCompile Include="..\runtime\docs\examples\list.c" />
+    <ClCompile Include="..\runtime\docs\examples\template.c" />
+    <ClCompile Include="..\runtime\docs\examples\argv.c" />
+    <ClCompile Include="..\runtime\transport\control.c" />
+    <ClCompile Include="..\runtime\transport\symbols.c" />
+    <ClCompile Include="..\runtime\transport\transport.c" />
+    <ClCompile Include="..\runtime\transport\ring_buffer.c" />
+    <ClCompile Include="..\runtime\transport\relayfs.c" />
+    <ClCompile Include="..\runtime\transport\procfs.c" />
+    <ClCompile Include="..\runtime\transport\debugfs.c" />
+    <ClCompile Include="..\runtime\transport\relay_v2.c" />
+    <ClCompile Include="..\doc\SystemTap_Tapset_Reference\docproc.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.pass1-4\debugtypes.cxx" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.context\uprobe_stmt_num.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.context\fib.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.context\systemtap_test_module2.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.context\uprobe_uaddr_mark.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.context\usymfileline.cxx" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.context\usymbols_lib.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.context\systemtap_test_module1.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.context\usymbols.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\callee.reloc.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\unresolved-struct-typedef.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\at_var_cu_2.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\sdt_misc.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\utrace_syscall_args.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\rep_ret.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\at_var_lvalue.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\callee.inlined.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\task_fd_lookup.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\global_var_speed.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\const_value.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\process_resume.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\ptridx.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\sdt_va_args.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\proc_thread_exec.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\set_user.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\at_var.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\func_alias.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\at_var_cu_3.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\stmt_inlines.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\callee.extern.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\towers.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\cast-user.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\process_by_cmd.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\global_var_distance.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\at_var_timer_profile.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\implicitptr.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\const_value_func.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\stmt_rel_user.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\externalvar_lib.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\callee.multicalls.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\buildid.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\bz10078.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\callee.extern.2.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\at_var_cu_1.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\callee.reloc.lib.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\jennie.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\proc_fork_exec.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\plt.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\stap_hwbkpt_kmod.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\inherit.cxx" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\listing_mode.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\bz5274.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\hash_add_buildid2.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\multisym_baz.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\global_var_main.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\vma_vdso.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\externalvar.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\auto_path.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\process_by_pid.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\cxxclass.cxx" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\utf_user.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\callee.simple.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\utf_pretty.cxx" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\statement.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\multisym_main.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\cast-scope.cxx" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\proc_exec.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\minidebug.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\bz6850.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\sdt_types.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\gtod.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\utf_user_trunc.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\utrace_p5_multi.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\setjmp.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\inlinedvars.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\sdt.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\cu-decl-2.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\proc_by_pid.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\at_var_void_stmt.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\vta-test.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\sdt_casm.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\partial-class-type-main.cxx" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\partial-class-type-heap.cxx" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\cu-decl-1.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\stap_kmodule.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\pthread_stacks.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\sdt_varname.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\bad-code.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\hash_add_buildid1.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.printf\print_user_buffer.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.printf\memory1_module.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\unlink.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\tee.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\vforkwait.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\fxattr.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\bpf.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\access.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\setns.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\ioctl.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getgroups.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getrusage.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\kexec_load.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\nice.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sched_getscheduler.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\dir.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\select.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\signalfd.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sched_attr.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\modify_ldt.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\shmat.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\mmap.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\memfd_create.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\forkwait.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getdents.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\stat.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\shmget.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\setgroups.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\flock.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\recvmmsg.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sched_getaffinity.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\exit.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\ioperm.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\kill.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\robust_list.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\setitimer.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\arch_prctl.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\fallocate.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sched_setscheduler.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sync.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\setsockopt.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\lseek.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\pwritev.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sysctl.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\uselib.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sysfs.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getsockname.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sched_setaffinity.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\exit_group.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\perf_event.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\semctl.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getpriority.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\acct.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\fadvise64.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\syslog.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\trunc.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\eventfd.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\setpriority.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\restart_syscall.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\xattr.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\execveat.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\setsid.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\listen.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\hostname.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\inotify.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\mempolicy.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\remap_file_pages.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\userfaultfd.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\timerfd.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\process_vm.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\syncfs.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\adjtimex.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\mq.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\times.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\preadv.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\membarrier.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\handle_at.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\set_tid_address.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getrlimit.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\send.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\connect.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\ptrace.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\madvise.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sync_file_range.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\copy_file_range.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\pread.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sendmmsg.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\thread_area.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\swap.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\fanotify.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getsockopt.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\signal.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\writev.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\personality.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getrandom.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\shutdown.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\timer.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\clock.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\wait4.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\readwrite.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getpeername.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\socketpair.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\umask.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\domainname.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\uid.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getcpu.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\lxattr.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\recvfrom.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\dup.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\prlimit.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\reboot.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sendfile.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\pgid.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\quotactl.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\futimes.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\aio.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\nfsservctl.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sysinfo.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sched_rr_get_interval.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\prctl.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\unshare.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\accept.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\pwrite.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\clone.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\readahead.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\link.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\mincore.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sched.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\net1.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\bind.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\openclose.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\readv.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\brk.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\dcookie.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\rt_signal.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\capability.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\statfs.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\readdir.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\poll.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sigaltstack.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\chmod.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\rename.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getitimer.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\futex.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\mount.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\keyctl.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\vhangup.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\pipe.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\recvmsg.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\seccomp.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\kcmp.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\numa.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\ioprio.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\execve.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\chroot.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\module.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\semget.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sendto.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\pivot_root.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sigmask.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\mknod.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\getsid.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\uname.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\sendmsg.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\wait.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\alarm.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\itimer.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\semop.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\recv.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\msg_queue.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\accept4.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\uid16.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.syscall\socket.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.unprivileged\loop.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.unprivileged\libloop.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.exelib\pthreadprobes.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.exelib\uprobes_exe.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.exelib\uprobes_lib.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.clone\probe_by_pid.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.clone\dtrace_child.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.clone\dtrace_fork_parent.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.clone\main_quiesce.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.clone\dtrace_vfork_parent.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.clone\dtrace_clone.c" />
+    <ClCompile Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.speculate\speculate.c" />
+    <ClCompile Include="..\stapdyn\dynsdt.cxx" />
+    <ClCompile Include="..\stapdyn\stapdyn.cxx" />
+    <ClCompile Include="..\stapdyn\mutator.cxx" />
+    <ClCompile Include="..\stapdyn\dynutil.cxx" />
+    <ClCompile Include="..\stapdyn\mutatee.cxx" />
+    <ClCompile Include="..\stapdyn\dynprobe.cxx" />
+    <ClCompile Include="..\python\HelperSDT\_HelperSDT.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\elaborate.h" />
+    <ClInclude Include="..\tapset-dynprobe.h" />
+    <ClInclude Include="..\task_finder.h" />
+    <ClInclude Include="..\rpm_finder.h" />
+    <ClInclude Include="..\loc2c.h" />
+    <ClInclude Include="..\stringtable.h" />
+    <ClInclude Include="..\remote.h" />
+    <ClInclude Include="..\cache.h" />
+    <ClInclude Include="..\stapregex-parse.h" />
+    <ClInclude Include="..\translate.h" />
+    <ClInclude Include="..\hash.h" />
+    <ClInclude Include="..\stapsslerr.h" />
+    <ClInclude Include="..\coveragedb.h" />
+    <ClInclude Include="..\tapsets.h" />
+    <ClInclude Include="..\cmdline.h" />
+    <ClInclude Include="..\mdfour.h" />
+    <ClInclude Include="..\setupdwfl.h" />
+    <ClInclude Include="..\sdt_types.h" />
+    <ClInclude Include="..\version.h" />
+    <ClInclude Include="..\buildrun.h" />
+    <ClInclude Include="..\translator-output.h" />
+    <ClInclude Include="..\interactive.h" />
+    <ClInclude Include="..\cscommon.h" />
+    <ClInclude Include="..\csclient.h" />
+    <ClInclude Include="..\stapregex-tree.h" />
+    <ClInclude Include="..\dwflpp.h" />
+    <ClInclude Include="..\dwarf_wrappers.h" />
+    <ClInclude Include="..\util.h" />
+    <ClInclude Include="..\parse.h" />
+    <ClInclude Include="..\stapregex.h" />
+    <ClInclude Include="..\session.h" />
+    <ClInclude Include="..\staptree.h" />
+    <ClInclude Include="..\nsscommon.h" />
+    <ClInclude Include="..\stapregex-dfa.h" />
+    <ClInclude Include="..\privilege.h" />
+    <ClInclude Include="..\httpd\server.h" />
+    <ClInclude Include="..\testsuite\systemtap.base\dtrace-inc-dtest.h" />
+    <ClInclude Include="..\testsuite\systemtap.printf\pretty-char.h" />
+    <ClInclude Include="..\testsuite\systemtap.printf\pretty-bits.h" />
+    <ClInclude Include="..\testsuite\sys\sdt.h" />
+    <ClInclude Include="..\includes\stap-probe.h" />
+    <ClInclude Include="..\includes\sys\sdt.h" />
+    <ClInclude Include="..\java\HelperSDT.h" />
+    <ClInclude Include="..\staprun\staprun.h" />
+    <ClInclude Include="..\staprun\modverify.h" />
+    <ClInclude Include="..\runtime\common_probe_context.h" />
+    <ClInclude Include="..\runtime\namespaces.h" />
+    <ClInclude Include="..\runtime\k_syms.h" />
+    <ClInclude Include="..\runtime\procfs-probes.h" />
+    <ClInclude Include="..\runtime\runtime.h" />
+    <ClInclude Include="..\runtime\ptrace_compatibility.h" />
+    <ClInclude Include="..\runtime\uidgid_compatibility.h" />
+    <ClInclude Include="..\runtime\runtime_defines.h" />
+    <ClInclude Include="..\runtime\proc_fs_compatibility.h" />
+    <ClInclude Include="..\runtime\regs.h" />
+    <ClInclude Include="..\runtime\stp_utrace.h" />
+    <ClInclude Include="..\runtime\addr-map.h" />
+    <ClInclude Include="..\runtime\utrace_compatibility.h" />
+    <ClInclude Include="..\runtime\print.h" />
+    <ClInclude Include="..\runtime\loc2c-runtime.h" />
+    <ClInclude Include="..\runtime\sym.h" />
+    <ClInclude Include="..\runtime\runtime_context.h" />
+    <ClInclude Include="..\runtime\map.h" />
+    <ClInclude Include="..\runtime\probe_lock.h" />
+    <ClInclude Include="..\runtime\vsprintf.h" />
+    <ClInclude Include="..\runtime\stat.h" />
+    <ClInclude Include="..\runtime\stp_string.h" />
+    <ClInclude Include="..\runtime\timer.h" />
+    <ClInclude Include="..\runtime\common_session_state.h" />
+    <ClInclude Include="..\runtime\syscall.h" />
+    <ClInclude Include="..\runtime\stp_helper_lock.h" />
+    <ClInclude Include="..\runtime\debug.h" />
+    <ClInclude Include="..\runtime\compatdefs.h" />
+    <ClInclude Include="..\runtime\dyninst\linux_hash.h" />
+    <ClInclude Include="..\runtime\dyninst\stapdyn.h" />
+    <ClInclude Include="..\runtime\dyninst\namespaces.h" />
+    <ClInclude Include="..\runtime\dyninst\session_attributes.h" />
+    <ClInclude Include="..\runtime\dyninst\runtime.h" />
+    <ClInclude Include="..\runtime\dyninst\linux_types.h" />
+    <ClInclude Include="..\runtime\dyninst\offptr.h" />
+    <ClInclude Include="..\runtime\dyninst\runtime_defines.h" />
+    <ClInclude Include="..\runtime\dyninst\linux_defs.h" />
+    <ClInclude Include="..\runtime\dyninst\stat_runtime.h" />
+    <ClInclude Include="..\runtime\dyninst\offset_list.h" />
+    <ClInclude Include="..\runtime\dyninst\transport.h" />
+    <ClInclude Include="..\runtime\dyninst\map_list.h" />
+    <ClInclude Include="..\runtime\dyninst\uprobes.h" />
+    <ClInclude Include="..\runtime\dyninst\loc2c-runtime.h" />
+    <ClInclude Include="..\runtime\dyninst\map_runtime.h" />
+    <ClInclude Include="..\runtime\dyninst\runtime_context.h" />
+    <ClInclude Include="..\runtime\dyninst\probe_lock.h" />
+    <ClInclude Include="..\runtime\dyninst\common_session_state.h" />
+    <ClInclude Include="..\runtime\dyninst\ilog2.h" />
+    <ClInclude Include="..\runtime\dyninst\debug.h" />
+    <ClInclude Include="..\runtime\linux\uprobes-common.h" />
+    <ClInclude Include="..\runtime\linux\task_work_compatibility.h" />
+    <ClInclude Include="..\runtime\linux\compat_unistd.h" />
+    <ClInclude Include="..\runtime\linux\namespaces.h" />
+    <ClInclude Include="..\runtime\linux\runtime.h" />
+    <ClInclude Include="..\runtime\linux\syscalls-common.h" />
+    <ClInclude Include="..\runtime\linux\perf_read.h" />
+    <ClInclude Include="..\runtime\linux\runtime_defines.h" />
+    <ClInclude Include="..\runtime\linux\stp_tracepoint.h" />
+    <ClInclude Include="..\runtime\linux\stat_runtime.h" />
+    <ClInclude Include="..\runtime\linux\map_list.h" />
+    <ClInclude Include="..\runtime\linux\compat_structs.h" />
+    <ClInclude Include="..\runtime\linux\perf.h" />
+    <ClInclude Include="..\runtime\linux\compat_net.h" />
+    <ClInclude Include="..\runtime\linux\access_process_vm.h" />
+    <ClInclude Include="..\runtime\linux\loc2c-runtime.h" />
+    <ClInclude Include="..\runtime\linux\map_runtime.h" />
+    <ClInclude Include="..\runtime\linux\runtime_context.h" />
+    <ClInclude Include="..\runtime\linux\probe_lock.h" />
+    <ClInclude Include="..\runtime\linux\timer.h" />
+    <ClInclude Include="..\runtime\linux\common_session_state.h" />
+    <ClInclude Include="..\runtime\linux\uprobes-inc.h" />
+    <ClInclude Include="..\runtime\linux\debug.h" />
+    <ClInclude Include="..\runtime\linux\uprobes2\uprobes_arch.h" />
+    <ClInclude Include="..\runtime\linux\uprobes2\uprobes.h" />
+    <ClInclude Include="..\runtime\linux\uprobes2\uprobes_x86.h" />
+    <ClInclude Include="..\runtime\linux\uprobes2\uprobes_arm.h" />
+    <ClInclude Include="..\runtime\linux\uprobes\uprobes_x86_64.h" />
+    <ClInclude Include="..\runtime\linux\uprobes\uprobes_i386.h" />
+    <ClInclude Include="..\runtime\linux\uprobes\uprobes_arch.h" />
+    <ClInclude Include="..\runtime\linux\uprobes\uprobes.h" />
+    <ClInclude Include="..\runtime\linux\uprobes\uprobes_s390.h" />
+    <ClInclude Include="..\runtime\linux\uprobes\uprobes_ppc.h" />
+    <ClInclude Include="..\runtime\linux\uprobes\uprobes_x86.h" />
+    <ClInclude Include="..\runtime\unwind\arm64.h" />
+    <ClInclude Include="..\runtime\unwind\x86_64.h" />
+    <ClInclude Include="..\runtime\unwind\arm.h" />
+    <ClInclude Include="..\runtime\unwind\mips.h" />
+    <ClInclude Include="..\runtime\unwind\s390x.h" />
+    <ClInclude Include="..\runtime\unwind\ppc64.h" />
+    <ClInclude Include="..\runtime\unwind\unwind.h" />
+    <ClInclude Include="..\runtime\unwind\i386.h" />
+    <ClInclude Include="..\runtime\transport\transport_msgs.h" />
+    <ClInclude Include="..\runtime\transport\transport.h" />
+    <ClInclude Include="..\runtime\transport\relay_compat.h" />
+    <ClInclude Include="..\runtime\transport\control.h" />
+    <ClInclude Include="..\runtime\transport\relayfs.h" />
+    <ClInclude Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.base\dtrace-inc-dtest.h" />
+    <ClInclude Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.printf\pretty-char.h" />
+    <ClInclude Include="..\doc\SystemTap_Beginners_Guide\testsuite\systemtap.printf\pretty-bits.h" />
+    <ClInclude Include="..\doc\SystemTap_Beginners_Guide\testsuite\sys\sdt.h" />
+    <ClInclude Include="..\stapdyn\mutatee.h" />
+    <ClInclude Include="..\stapdyn\dynprobe.h" />
+    <ClInclude Include="..\stapdyn\dynutil.h" />
+    <ClInclude Include="..\stapdyn\mutator.h" />
+  </ItemGroup>
+</Project>
